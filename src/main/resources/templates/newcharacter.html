@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<!--
+Copyright (C) 2018 JavaSmyths javasmyths@javasmyths.com
+-->
+<html>
+  <head>
+    <title>Enter name and Age</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <h4>Begin by Naming Your character and selecting starting age.</h4>
+    <form action="#" th:action="@{/newcharacter}" th:object="${character}" method="post">
+      <p>Name: <input type="text" th:field="*{name}" /></p>
+      <p>Age: <input type="text" th:field="*{age}" /></p>
+      <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+  </body>
+</html>

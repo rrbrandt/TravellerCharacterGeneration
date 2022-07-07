@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+  <head> 
+    <title>Enter Characteristics</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <form action="#" th:action="@{/characteristics}" th:object="${character}" method="post">
+      <h4><underline>Character:</underline></h4>
+      Name: <input type="text" th:field="*{name}" /><br />
+      Age: <input type="text" th:field="*{age}" /><br />
+      <h4><underline>Role Characteristics:</underline></h4>
+      Strength: <input type="text" th:field="*{characteristics.strength}" width="16"/><br />
+      Dexterity: <input type="text" th:field="*{characteristics.dexterity}" width="16"/><br />
+      Endurance: <input type="text" th:field="*{characteristics.endurance}"  width="16"/><br />
+      Intelligence: <input type="text" th:field="*{characteristics.intelligence}" width="16"/><br />
+      Education: <input type="text" th:field="*{characteristics.education}" width="16"/><br />
+      Social Standing: <input type="text" th:field="*{characteristics.socialStanding}" width="16"/><br /><br />
+      <input type="submit" name="Submit" value="Submit" /> <input type="submit" name="ReRoll" value="ReRoll" /><br />
+    </form>
+  </body>
+</html>

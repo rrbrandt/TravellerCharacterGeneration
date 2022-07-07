@@ -1,0 +1,9 @@
+{
+  "elements": {},
+  "attributes": {
+    "th:action": {},
+    "th:field": {
+      "context": "input"
+    }
+  }
+}
