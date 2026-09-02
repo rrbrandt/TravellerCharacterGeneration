@@ -1,22 +1,37 @@
-<!DOCTYPE HTML>
-<html xmlns:th="https://www.thymeleaf.org">
-  <head> 
-    <title>Enter Characteristics</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  </head>
-  <body>
-    <form action="#" th:action="@{/characteristics}" th:object="${character}" method="post">
-      <h4><underline>Character:</underline></h4>
-      Name: <input type="text" th:field="*{name}" /><br />
-      Age: <input type="text" th:field="*{age}" /><br />
-      <h4><underline>Role Characteristics:</underline></h4>
-      Strength: <input type="text" th:field="*{characteristics.strength}" width="16"/><br />
-      Dexterity: <input type="text" th:field="*{characteristics.dexterity}" width="16"/><br />
-      Endurance: <input type="text" th:field="*{characteristics.endurance}"  width="16"/><br />
-      Intelligence: <input type="text" th:field="*{characteristics.intelligence}" width="16"/><br />
-      Education: <input type="text" th:field="*{characteristics.education}" width="16"/><br />
-      Social Standing: <input type="text" th:field="*{characteristics.socialStanding}" width="16"/><br /><br />
-      <input type="submit" name="Submit" value="Submit" /> <input type="submit" name="ReRoll" value="ReRoll" /><br />
-    </form>
-  </body>
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Traveller Characteristics</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css">
+</head>
+<body>
+<main class="panel">
+  <p class="eyebrow">Step 2 of 3</p>
+  <h1>Characteristics</h1>
+  <p class="lede"><strong th:text="${character.name}">Character</strong>, age <span th:text="${character.age}">18</span>. Keep these rolls or roll all six again.</p>
+  <form th:action="@{/characteristics}" th:object="${character}" method="post" novalidate>
+    <input type="hidden" th:field="*{name}">
+    <input type="hidden" th:field="*{age}">
+    <div class="stats">
+      <label>Strength<input type="number" th:field="*{characteristics.strength}" min="2" max="12"></label>
+      <label>Dexterity<input type="number" th:field="*{characteristics.dexterity}" min="2" max="12"></label>
+      <label>Endurance<input type="number" th:field="*{characteristics.endurance}" min="2" max="12"></label>
+      <label>Intelligence<input type="number" th:field="*{characteristics.intelligence}" min="2" max="12"></label>
+      <label>Education<input type="number" th:field="*{characteristics.education}" min="2" max="12"></label>
+      <label>Social standing<input type="number" th:field="*{characteristics.socialStanding}" min="2" max="12"></label>
+    </div>
+    <div class="error-box" th:if="${#fields.hasAnyErrors()}">
+      <p>Please correct the highlighted values.</p>
+      <ul><li th:each="error : ${#fields.allErrors()}" th:text="${error}"></li></ul>
+    </div>
+    <p class="upp">UPP <strong th:text="*{characteristics.upp}">777777</strong></p>
+    <div class="actions">
+      <button type="submit" name="action" value="reroll">Roll again</button>
+      <button class="primary" type="submit" name="action" value="continue">Choose a service</button>
+    </div>
+  </form>
+</main>
+</body>
 </html>

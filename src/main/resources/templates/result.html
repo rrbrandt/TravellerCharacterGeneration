@@ -1,13 +1,176 @@
-<!DOCTYPE HTML>
-<html xmlns:th="https://www.thymeleaf.org">
-<head> 
-    <title>Getting Started: Handling Form Submission</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Traveller Character</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css">
 </head>
 <body>
-	<h1>Result</h1>
-    <p th:text="'id: ' + ${greeting.id}" />
-    <p th:text="'content: ' + ${greeting.content}" />
-    <a href="/greeting">Submit another message</a>
+<main class="panel wide">
+  <p class="eyebrow">Service career</p>
+  <h1 th:text="${character.name}">Traveller</h1>
+  <div class="summary">
+    <div><span>Age</span><strong th:text="${character.age}">18</strong></div>
+    <div><span>UPP</span><strong th:text="${character.characteristics.upp}">777777</strong></div>
+    <div><span>Service</span><strong th:text="${character.service.displayName}">Navy</strong></div>
+    <div><span>Terms</span><strong th:text="${character.termsServed}">1</strong></div>
+    <div><span>Rank</span><strong th:text="${character.rankLabel}">Uncommissioned</strong></div>
+    <div><span>Skill rolls left</span><strong th:text="${character.skillRollsRemaining}">2</strong></div>
+    <div th:if="${!character.careerActive and character.alive}">
+      <span>Cash</span><strong th:text="${'Cr' + #numbers.formatInteger(character.credits, 1, 'COMMA')}">Cr0</strong>
+    </div>
+    <div th:if="${character.annualPension > 0}">
+      <span>Annual pension</span><strong th:text="${'Cr' + #numbers.formatInteger(character.annualPension, 1, 'COMMA')}">Cr4,000</strong>
+    </div>
+  </div>
+  <p class="outcome" th:text="${character.enlistmentResult}">Enlistment result</p>
+  <p class="outcome term-outcome" th:if="${character.lastTermResult}"
+     th:text="${character.lastTermResult}">Term result</p>
+  <p class="error-box" th:if="${careerError}" th:text="${careerError}"></p>
+
+  <section class="skill-roll">
+    <p class="eyebrow">Career training</p>
+    <h2 th:if="${character.careerActive and character.skillRollsRemaining > 0}">Choose a skill table</h2>
+    <p class="hint" th:if="${character.careerActive and character.skillRollsRemaining > 0}">
+      Use one table button for each available skill roll.
+    </p>
+    <h2 th:if="${!character.alive}">Career ended</h2>
+    <p class="hint" th:if="${!character.alive}">This character did not survive the term.</p>
+    <h2 th:if="${character.alive and !character.careerActive}">Career complete</h2>
+    <p class="hint" th:if="${character.alive and !character.careerActive}">
+      This character has left the service.
+    </p>
+    <p class="error-box" th:if="${skillError}" th:text="${skillError}"></p>
+    <p class="outcome" th:if="${character.lastSkillResult}"
+       th:text="${character.lastSkillResult}">Skill roll result</p>
+  </section>
+
+  <section th:if="${!character.skills.isEmpty()}">
+    <h2>Acquired skills</h2>
+    <ul class="acquired-skills">
+      <li th:each="entry : ${character.skills.entrySet()}">
+        <span th:text="${entry.key.displayName}">Pilot</span>
+        <strong th:text="${'Level ' + entry.value}">Level 1</strong>
+      </li>
+    </ul>
+  </section>
+
+  <h2 th:if="${character.careerActive}">Available skill tables</h2>
+  <div class="skill-grid" th:if="${character.careerActive}">
+    <section>
+      <h3>Personal development</h3>
+      <ol><li th:each="skill : ${skillTables.personalDevelopment}" th:text="${skill.displayName}"></li></ol>
+      <form th:action="@{/skill}" method="post">
+        <input type="hidden" name="table" value="PERSONAL_DEVELOPMENT">
+        <button class="primary table-roll" type="submit"
+                th:disabled="${!character.careerActive or character.skillRollsRemaining == 0}">Roll personal development</button>
+      </form>
+    </section>
+    <section>
+      <h3>Service skills</h3>
+      <ol><li th:each="skill : ${skillTables.serviceSkills}" th:text="${skill.displayName}"></li></ol>
+      <form th:action="@{/skill}" method="post">
+        <input type="hidden" name="table" value="SERVICE_SKILLS">
+        <button class="primary table-roll" type="submit"
+                th:disabled="${!character.careerActive or character.skillRollsRemaining == 0}">Roll service skills</button>
+      </form>
+    </section>
+    <section>
+      <h3>Advanced education</h3>
+      <ol><li th:each="skill : ${skillTables.advancedEducation}" th:text="${skill.displayName}"></li></ol>
+      <form th:action="@{/skill}" method="post">
+        <input type="hidden" name="table" value="ADVANCED_EDUCATION">
+        <button class="primary table-roll" type="submit"
+                th:disabled="${!character.careerActive or character.skillRollsRemaining == 0}">Roll advanced education</button>
+      </form>
+    </section>
+    <section th:classappend="${character.characteristics.education < 8} ? 'unavailable'">
+      <h3>Advanced education (Education 8+)</h3>
+      <ol><li th:each="skill : ${skillTables.advancedEducationPlusEducation}" th:text="${skill.displayName}"></li></ol>
+      <form th:action="@{/skill}" method="post">
+        <input type="hidden" name="table" value="ADVANCED_EDUCATION_8_PLUS">
+        <button class="primary table-roll" type="submit"
+                th:disabled="${character.characteristics.education < 8 or !character.careerActive or character.skillRollsRemaining == 0}">
+          <span th:if="${character.characteristics.education >= 8}">Roll advanced education 8+</span>
+          <span th:if="${character.characteristics.education < 8}">Requires Education 8+</span>
+        </button>
+      </form>
+    </section>
+  </div>
+
+  <section class="career-decision"
+           th:if="${character.alive and character.careerActive and character.skillRollsRemaining == 0}">
+    <p class="eyebrow">Term complete</p>
+    <h2>Continue your career?</h2>
+    <p class="hint">Reenlistment begins another four-year term. Leaving ends service generation.</p>
+    <div class="actions">
+      <form th:action="@{/career/leave}" method="post">
+        <button type="submit">Leave service</button>
+      </form>
+      <form th:action="@{/career/reenlist}" method="post">
+        <button class="primary" type="submit"
+                th:text="${'Attempt reenlistment (' + character.service.reenlistmentTarget + '+)'}">
+          Attempt reenlistment
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <section class="muster-out" th:if="${character.alive and !character.careerActive}">
+    <p class="eyebrow">Mustering out</p>
+    <h2 th:if="${character.musterRollsRemaining > 0}">Choose your benefits</h2>
+    <h2 th:if="${character.musterRollsRemaining == 0}">Mustering out complete</h2>
+    <p class="hint" th:if="${character.musterRollsRemaining > 0}"
+       th:text="${character.musterRollsRemaining + ' benefit roll(s) remain. Cash may be selected no more than three times.'}">
+      Benefit rolls remain.
+    </p>
+    <p class="error-box" th:if="${musterError}" th:text="${musterError}"></p>
+    <p class="outcome" th:if="${character.lastMusterResult}"
+       th:text="${character.lastMusterResult}">Mustering-out result</p>
+
+    <div class="muster-grid" th:if="${character.musterRollsRemaining > 0}">
+      <section>
+        <h3>Material benefits</h3>
+        <ol>
+          <li th:each="benefit : ${musterTable.materialBenefits}"
+              th:text="${benefit.displayName}">Low Passage</li>
+        </ol>
+        <form th:action="@{/muster}" method="post">
+          <input type="hidden" name="type" value="material">
+          <button class="primary table-roll" type="submit">Roll material benefit</button>
+        </form>
+      </section>
+      <section>
+        <h3>Cash benefits</h3>
+        <ol>
+          <li th:each="cash : ${musterTable.cashBenefits}"
+              th:text="${'Cr' + #numbers.formatInteger(cash, 1, 'COMMA')}">Cr1,000</li>
+        </ol>
+        <form th:action="@{/muster}" method="post">
+          <input type="hidden" name="type" value="cash">
+          <button class="primary table-roll" type="submit"
+                  th:disabled="${character.cashRollsTaken >= 3}"
+                  th:text="${character.cashRollsTaken >= 3 ? 'Cash limit reached' : 'Roll cash benefit'}">
+            Roll cash benefit
+          </button>
+        </form>
+      </section>
+    </div>
+
+    <div th:if="${!character.musterBenefits.isEmpty()}">
+      <h3>Material awards</h3>
+      <ul class="benefit-list">
+        <li th:each="benefit : ${character.musterBenefits}" th:text="${benefit}">High Passage</li>
+      </ul>
+    </div>
+  </section>
+
+  <details class="term-history" th:if="${character.termHistory.size() > 1}">
+    <summary>Career history</summary>
+    <ol><li th:each="event : ${character.termHistory}" th:text="${event}"></li></ol>
+  </details>
+  <a class="button primary" th:href="@{/newcharacter}">Create another character</a>
+</main>
 </body>
 </html>
