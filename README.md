@@ -3,7 +3,7 @@
 A Spring Boot and Thymeleaf application implementing Classic Traveller basic
 character generation.
 
-Current release: **0.1.0**
+Current release: **0.2.0**
 
 ## Requirements
 

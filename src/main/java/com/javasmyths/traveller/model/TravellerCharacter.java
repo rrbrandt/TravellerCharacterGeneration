@@ -36,6 +36,7 @@ public class TravellerCharacter {
   private int annualPension;
   private String lastMusterResult;
   private final List<String> musterBenefits = new ArrayList<>();
+  private String backstory;
   
 
   public TravellerCharacter() {
@@ -147,6 +148,8 @@ public class TravellerCharacter {
   public List<String> getMusterBenefits() {
     return Collections.unmodifiableList(musterBenefits);
   }
+  public String getBackstory() { return backstory; }
+  public void setBackstory(String backstory) { this.backstory = backstory; }
   public boolean isMusteringOut() {
     return alive && !careerActive && musterRollsRemaining > 0;
   }
@@ -187,6 +190,7 @@ public class TravellerCharacter {
     annualPension = 0;
     lastMusterResult = null;
     musterBenefits.clear();
+    backstory = null;
   }
 
   public void resetCareer() {

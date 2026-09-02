@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="${character.name + ' · Traveller Character Sheet'}">Traveller Character Sheet</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css">
+</head>
+<body class="sheet-page">
+<main class="sheet-shell">
+  <div class="sheet-toolbar">
+    <a class="button" th:href="@{/backstory}">Edit backstory</a>
+    <button class="primary" type="button" onclick="window.print()">Print / save PDF</button>
+  </div>
+  <article class="character-sheet">
+    <header class="sheet-header">
+      <div><p class="sheet-kicker">Traveller character record</p><h1 th:text="${character.name}">Traveller</h1></div>
+      <div class="sheet-upp"><span>UPP</span><strong th:text="${character.characteristics.upp}">777777</strong></div>
+    </header>
+
+    <section class="sheet-summary">
+      <div><span>Age</span><strong th:text="${character.age}">18</strong></div>
+      <div><span>Service</span><strong th:text="${character.service.displayName}">Navy</strong></div>
+      <div><span>Terms</span><strong th:text="${character.termsServed}">1</strong></div>
+      <div><span>Rank</span><strong th:text="${character.rankLabel}">Uncommissioned</strong></div>
+      <div><span>Credits</span><strong th:text="${'Cr' + #numbers.formatInteger(character.credits, 1, 'COMMA')}">Cr0</strong></div>
+      <div><span>Annual pension</span><strong th:text="${'Cr' + #numbers.formatInteger(character.annualPension, 1, 'COMMA')}">Cr0</strong></div>
+    </section>
+
+    <section><h2>Characteristics</h2><div class="sheet-characteristics">
+      <div><span>STR</span><strong th:text="${character.characteristics.strength}">7</strong></div>
+      <div><span>DEX</span><strong th:text="${character.characteristics.dexterity}">7</strong></div>
+      <div><span>END</span><strong th:text="${character.characteristics.endurance}">7</strong></div>
+      <div><span>INT</span><strong th:text="${character.characteristics.intelligence}">7</strong></div>
+      <div><span>EDU</span><strong th:text="${character.characteristics.education}">7</strong></div>
+      <div><span>SOC</span><strong th:text="${character.characteristics.socialStanding}">7</strong></div>
+    </div></section>
+
+    <div class="sheet-columns">
+      <div>
+        <section><h2>Skills</h2><p class="sheet-empty" th:if="${character.skills.isEmpty()}">No acquired skills.</p><ul class="sheet-list" th:unless="${character.skills.isEmpty()}"><li th:each="entry : ${character.skills.entrySet()}"><span th:text="${entry.key.displayName}">Pilot</span><strong th:text="${entry.value}">1</strong></li></ul></section>
+        <section><h2>Mustering-out benefits</h2><p class="sheet-empty" th:if="${character.musterBenefits.isEmpty()}">No material benefits.</p><ul th:unless="${character.musterBenefits.isEmpty()}"><li th:each="benefit : ${character.musterBenefits}" th:text="${benefit}">High Passage</li></ul></section>
+      </div>
+      <div>
+        <section><h2>Backstory</h2><p class="sheet-story" th:text="${#strings.isEmpty(character.backstory) ? 'No backstory recorded.' : character.backstory}">No backstory recorded.</p></section>
+        <section><h2>Career history</h2><ol class="sheet-history"><li th:each="event : ${character.termHistory}" th:text="${event}">Career event</li></ol></section>
+      </div>
+    </div>
+    <footer class="sheet-footer">TAS Form 7-B · Generated character record</footer>
+  </article>
+</main>
+</body>
+</html>

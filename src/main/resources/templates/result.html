@@ -170,7 +170,11 @@
     <summary>Career history</summary>
     <ol><li th:each="event : ${character.termHistory}" th:text="${event}"></li></ol>
   </details>
-  <a class="button primary" th:href="@{/newcharacter}">Create another character</a>
+  <div class="actions final-actions"
+       th:if="${!character.careerActive and (!character.alive or character.musterRollsRemaining == 0)}">
+    <a class="button" th:href="@{/newcharacter}">Create another character</a>
+    <a class="button primary" th:href="@{/backstory}">Add backstory</a>
+  </div>
 </main>
 </body>
 </html>

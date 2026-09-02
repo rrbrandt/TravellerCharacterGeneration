@@ -10,7 +10,7 @@
   </parent>
   <groupId>com.javasmyths</groupId>
   <artifactId>TravellerCharacterGeneration</artifactId>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
   <packaging>war</packaging>
   <name>TravellerCharacterGeneration</name>
   <description>Generate a Classic Traveller character</description>

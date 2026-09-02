@@ -187,6 +187,40 @@ class CharacterControllerTest {
         .andExpect(model().attribute("character", hasProperty("characteristics", notNullValue())));
   }
 
+  @Test
+  void completedCharacterCanAddBackstoryAndReachCharacterSheet() throws Exception {
+    TravellerCharacter character = careerCharacter();
+    character.setCareerActive(false);
+    character.setTermsServed(1);
+    character.startMusteringOut(0, 0);
+
+    mvc.perform(get("/backstory").sessionAttr("character", character))
+        .andExpect(status().isOk())
+        .andExpect(view().name("backstory"));
+
+    mvc.perform(post("/backstory")
+            .sessionAttr("character", character)
+            .param("backstory", "A missing patron left behind an impossible star chart."))
+        .andExpect(status().isOk())
+        .andExpect(view().name("charactersheet"));
+
+    org.junit.jupiter.api.Assertions.assertEquals(
+        "A missing patron left behind an impossible star chart.", character.getBackstory());
+  }
+
+  @Test
+  void activeCareerCannotSkipToFinalSteps() throws Exception {
+    TravellerCharacter character = careerCharacter();
+
+    mvc.perform(get("/backstory").sessionAttr("character", character))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name("redirect:/result"));
+
+    mvc.perform(get("/charactersheet").sessionAttr("character", character))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name("redirect:/result"));
+  }
+
   private TravellerCharacter careerCharacter() {
     TravellerCharacter character = new TravellerCharacter();
     character.setCharacteristics(new com.javasmyths.traveller.model.Characteristics(

@@ -140,6 +140,36 @@ public class CharacterController {
     return "result";
   }
 
+  @GetMapping("/backstory")
+  public String backstory(@ModelAttribute("character") TravellerCharacter character) {
+    if (!isCareerComplete(character)) {
+      return "redirect:/result";
+    }
+    return "backstory";
+  }
+
+  @PostMapping("/backstory")
+  public String saveBackstory(@ModelAttribute("character") TravellerCharacter character,
+      BindingResult bindingResult) {
+    if (!isCareerComplete(character)) {
+      return "redirect:/result";
+    }
+    if (character.getBackstory() != null && character.getBackstory().length() > 2000) {
+      bindingResult.rejectValue("backstory", "backstory.length",
+          "Keep the backstory to 2,000 characters or fewer.");
+      return "backstory";
+    }
+    return "charactersheet";
+  }
+
+  @GetMapping("/charactersheet")
+  public String characterSheet(@ModelAttribute("character") TravellerCharacter character) {
+    if (!isCareerComplete(character)) {
+      return "redirect:/result";
+    }
+    return "charactersheet";
+  }
+
   @PostMapping("/skill")
   public String rollSkill(@ModelAttribute("character") TravellerCharacter character,
       @RequestParam String table, Model model) {
@@ -300,6 +330,11 @@ public class CharacterController {
   private boolean canMakeCareerDecision(TravellerCharacter character) {
     return character.getService() != null && character.isAlive()
         && character.isCareerActive() && character.getSkillRollsRemaining() == 0;
+  }
+
+  private boolean isCareerComplete(TravellerCharacter character) {
+    return character.getService() != null && !character.isCareerActive()
+        && (!character.isAlive() || character.getMusterRollsRemaining() == 0);
   }
 
   private void resolveTerm(TravellerCharacter character) {

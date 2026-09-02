@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Traveller Backstory</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css">
+</head>
+<body>
+<main class="panel">
+  <p class="eyebrow">Final step · Personal history</p>
+  <h1>Give your traveller a past</h1>
+  <p class="lede">Add any ideas you want to remember. Connections, debts, rumours, rivals, and unfinished business all make useful starting points.</p>
+  <form th:action="@{/backstory}" th:object="${character}" method="post" novalidate>
+    <label for="backstory">Backstory ideas</label>
+    <textarea id="backstory" class="backstory-input" th:field="*{backstory}" maxlength="2000"
+              placeholder="Why did they leave home? Who do they still owe? What do they refuse to discuss?"
+              autofocus></textarea>
+    <div class="field-meta">
+      <p class="error" th:if="${#fields.hasErrors('backstory')}" th:errors="*{backstory}"></p>
+      <span><output id="backstory-count">0</output> / 2,000</span>
+    </div>
+    <div class="story-prompts" aria-label="Backstory prompts">
+      <span>Need a spark?</span>
+      <button type="button" data-story-prompt="A promise made during a failed jump still shapes every decision.">Unpaid promise</button>
+      <button type="button" data-story-prompt="They know the real reason a former patron vanished from the subsector.">Missing patron</button>
+      <button type="button" data-story-prompt="A rival carries proof that their greatest achievement was built on a lie.">Old rival</button>
+    </div>
+    <div class="actions">
+      <a class="button" th:href="@{/result}">Back to career</a>
+      <button class="primary" type="submit">Create character sheet</button>
+    </div>
+  </form>
+</main>
+<script>
+  const story = document.querySelector('#backstory');
+  const count = document.querySelector('#backstory-count');
+  const updateCount = () => count.textContent = story.value.length.toLocaleString();
+  story.addEventListener('input', updateCount);
+  document.querySelectorAll('[data-story-prompt]').forEach(button => {
+    button.addEventListener('click', () => {
+      const separator = story.value.trim() ? '\n\n' : '';
+      story.value += separator + button.dataset.storyPrompt;
+      story.dispatchEvent(new Event('input'));
+      story.focus();
+    });
+  });
+  updateCount();
+</script>
+</body>
+</html>
