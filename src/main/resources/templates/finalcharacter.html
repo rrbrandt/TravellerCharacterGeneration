@@ -1,0 +1,59 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+  <head>
+
+    <title>Traveller • Final Character</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/traveller.css?v=1.0" th:href="@{/traveller.css(v='1.0')}"></head>
+  <body th:attr="data-context-path=@{/}"><header><a class="brand" th:href="@{/newcharacter}" href="/newcharacter" aria-label="Traveller character creator"><span class="logo"><img src="/traveller-cover.png" th:src="@{/traveller-cover.png}" alt="Traveller"></span><span class="brand-caption">CHARACTER CREATOR</span></a><span class="edition">SCIENCE-FICTION ADVENTUREIN THE FAR FUTURE</span></header><main><ol class="steps"><li class="complete" ><span>01</span>Identity</li><li class="complete" ><span>02</span>Characteristics</li><li class="complete" ><span>03</span>Service</li><li class="complete"><span>04</span>Skills</li><li class="complete"><span>05</span>Muster Out Benefits</li><li class="active" aria-current="step"><span>06</span>Final Character</li></ol><section class="intro"><p class="eyebrow">PERSONNEL FILE / 06</p><h1>Your traveller. The complete record.</h1><p>Career history, characteristics, skills, advancement, and mustering-out rewards.</p></section><div class="workspace"><section class="panel">
+    <form action="#" th:action="@{/stage}" th:object="${character}" method="post">
+
+<input type="hidden" th:field="*{name}" />
+<input type="hidden" th:field="*{age}" />
+
+<input type="hidden" th:field="*{characteristics.strength}" />
+<input type="hidden" th:field="*{characteristics.dexterity}" />
+<input type="hidden" th:field="*{characteristics.endurance}" />
+<input type="hidden" th:field="*{characteristics.intelligence}" />
+<input type="hidden" th:field="*{characteristics.education}" />
+<input type="hidden" th:field="*{characteristics.socialStanding}" />
+      <div class="final-overview">
+        <p class="record-status" th:text="${career.generationComplete ? 'CHARACTER GENERATION COMPLETE' : 'CHARACTER IN PROGRESS'}"></p>
+        <p th:unless="${career.generationComplete}">This is your current character record. Complete service and collect all muster-out benefits to finish.</p>
+        <section class="summary-section" aria-label="Character identity">
+          <h2 th:text="${#strings.isEmpty(character.name) ? 'Unnamed Traveller' : character.name}"></h2>
+          <dl class="identity-summary">
+            <div><dt>Age</dt><dd th:text="${character.age}"></dd></div>
+            <div><dt>Service</dt><dd th:text="${career.service != null ? career.service : 'Not enlisted'}"></dd></div>
+            <div><dt>Terms completed</dt><dd th:text="${career.completedTerms}"></dd></div>
+            <div><dt>Final rank</dt><dd th:text="${career.rankTitle}"></dd></div>
+            <div><dt>Status</dt><dd th:text="${career.serviceStatus}"></dd></div>
+            <div><dt>Cash received</dt><dd th:text="${'Cr ' + career.credits}"></dd></div>
+          </dl>
+        </section>
+        <section class="summary-section" aria-label="Skills and expertise">
+          <h2>Skills and expertise</h2>
+          <p th:if="${career.skillLevels.empty}">No skills acquired yet.</p>
+          <table th:unless="${career.skillLevels.empty}"><thead><tr><th>Skill</th><th>Level</th></tr></thead><tbody><tr th:each="skill : ${career.skillLevels}"><td th:text="${skill.key}"></td><td th:text="${skill.value}"></td></tr></tbody></table>
+          <p th:unless="${career.skillLevels.empty}">Repeated skill awards increase the listed level. Unspecialized combat skills retain the category recorded during generation.</p>
+        </section>
+        <section class="summary-section" aria-label="Commissions and promotions">
+          <h2>Commissions and promotions</h2>
+          <p th:text="${career.rankTitle + (career.rankedService ? ' · Rank ' + career.rank : '')}"></p>
+          <p th:if="${career.advancementHistory.empty}">No advancement attempts recorded.</p>
+          <ol><li th:each="entry : ${career.advancementHistory}" th:text="${entry}"></li></ol>
+        </section>
+        <section class="summary-section" aria-label="Muster-out summary">
+          <h2>Muster-out benefits</h2>
+          <p th:unless="${career.musteredOut}">Still in service. Muster-out benefits are not yet available.</p>
+          <p th:if="${career.musteredOut}" th:text="${career.benefitRollsUsed + ' of ' + career.benefitRollAllowance + ' benefit rolls collected · Cash received: Cr ' + career.credits}"></p>
+          <ul><li th:each="benefit : ${career.benefits}" th:text="${benefit}"></li></ul>
+        </section>
+        <section class="summary-section" aria-label="Complete character history">
+          <h2>Complete character history</h2>
+          <p th:if="${career.fullHistory.empty}">Your career has not started yet.</p>
+          <ol class="career-timeline"><li th:each="entry : ${career.fullHistory}" th:text="${entry}"></li></ol>
+        </section>
+      </div></form>
+  </section><aside class="mission"><p class="eyebrow">TRANSMISSION / 001</p><h2>A life before<br>the adventure.</h2><p>From your first enlistment to the skills you carry into the unknown, build a character with a story to tell.</p><div class="orbit" aria-hidden="true"><span>✦</span></div><p class="aside-caption">YOUR NEXT CHAPTER<br>IS OUT THERE.</p></aside></div><footer><span>TRAVELLER / CHARACTER CREATOR · VERSION 1.0</span><a th:href="@{/newcharacter}" href="/newcharacter">Start a new character ↗</a></footer></main><script src="/stage-navigation.js?v=1.0" th:src="@{/stage-navigation.js(v='1.0')}"></script></body>
+</html>

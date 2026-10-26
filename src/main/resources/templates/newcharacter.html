@@ -1,27 +1,19 @@
-<!doctype html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>New Traveller Character</title>
-  <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css">
-</head>
-<body>
-<main class="panel narrow">
-  <p class="eyebrow">Classic Traveller</p>
-  <h1>Create a character</h1>
-  <p class="lede">Name your traveller and choose a starting age. Characteristics are rolled on the next step.</p>
-  <form th:action="@{/newcharacter}" th:object="${character}" method="post" novalidate>
-    <label for="name">Character name</label>
-    <input id="name" type="text" th:field="*{name}" maxlength="80" autofocus>
-    <p class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+<!DOCTYPE html>
+<!--
+Copyright (C) 2018 JavaSmyths javasmyths@javasmyths.com
+-->
+<html>
+  <head>
+    <title>Traveller • Identity</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/traveller.css?v=1.0" th:href="@{/traveller.css(v='1.0')}"></head>
+  <body th:attr="data-context-path=@{/}"><header><a class="brand" th:href="@{/newcharacter}" href="/newcharacter" aria-label="Traveller character creator"><span class="logo"><img src="/traveller-cover.png" th:src="@{/traveller-cover.png}" alt="Traveller"></span><span class="brand-caption">CHARACTER CREATOR</span></a><span class="edition">SCIENCE-FICTION ADVENTUREIN THE FAR FUTURE</span></header><main><ol class="steps"><li class="active" aria-current="step"><span>01</span>Identity</li><li class="" ><span>02</span>Characteristics</li><li class="" ><span>03</span>Service</li><li class="" ><span>04</span>Skills</li><li><span>05</span>Muster Out Benefits</li><li><span>06</span>Final Character</li></ol><section class="intro"><p class="eyebrow">PERSONNEL FILE / 01</p><h1>Every traveller has a beginning.</h1><p>Name your character. Your first adventure starts here.</p></section><div class="workspace"><section class="panel">
 
-    <label for="age">Starting age</label>
-    <input id="age" type="number" th:field="*{age}" min="18" max="100">
-    <p class="error" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></p>
-
-    <button class="primary" type="submit">Roll characteristics</button>
-  </form>
-</main>
-</body>
+    <form action="#" th:action="@{/newcharacter}" th:object="${character}" method="post">
+      <p><label class="field"><span>Name</span><input type="text" th:field="*{name}" /></label></p>
+      <p><label class="field"><span>Age</span><input type="text" th:field="*{age}" /></label></p>
+      <p><input type="submit" value="Continue →" /> <input type="reset" value="Reset" /></p>
+    </form>
+  </section><aside class="mission"><p class="eyebrow">TRANSMISSION / 001</p><h2>A life before<br>the adventure.</h2><p>From your first enlistment to the skills you carry into the unknown, build a character with a story to tell.</p><div class="orbit" aria-hidden="true"><span>✦</span></div><p class="aside-caption">YOUR NEXT CHAPTER<br>IS OUT THERE.</p></aside></div><footer><span>TRAVELLER / CHARACTER CREATOR · VERSION 1.0</span><a th:href="@{/newcharacter}" href="/newcharacter">Start a new character ↗</a></footer></main><script src="/stage-navigation.js?v=1.0" th:src="@{/stage-navigation.js(v='1.0')}"></script></body>
 </html>

@@ -1,21 +1,21 @@
 Personal Development Table
   Navy          Marines       	Army			Scouts			Merchant		Other
 1  +1 Stren		+1 Stren		+1 Stren		+1 Stren		+1 Stren		+1 Stren
-2  +1 Dext		+1 Dext         +1 Dext         +1 Dext         +1 Dext         +1 Dext 
-3  +1 Endur		+1 Endu         +1 Endur        +1 Endur        +1 Endur        +1 Endur
+2  +1 Dext		+1 Dext         +1 Dext         +1 Dext         +1 Dext         +1 Dext
+3  +1 Endur		+1 Endur        +1 Endur        +1 Endur        +1 Endur        +1 Endur
 4  +1 Intel		Gambling		Gambling        +1 Intel        +1 Stren		Blade Cbt
 5  +1 Educ		Brawling		+1 Educ         +1 Educ 		Blade Cbt		Brawling
-6  +1 Social	Blade Cbt		Brawling		Gun Cbt			Bribary			-1 Social
+6  +1 Social	Blade Cbt		Brawling		Gun Cbt			Bribery			-1 Social
 
 
 Service Skills Table
   Navy          Marines       	Army			Scouts			Merchant		Other
 1  Ships Boat	Vehicle 		Vehicle			Vehicle			Vehicle			Vehicle
-2  Vacc Suit    Vacc Suit       Air/Raft        Vacc Suit       Vacc Suit 		Gambling  
+2  Vacc Suit    Vacc Suit       Air/Raft        Vacc Suit       Vacc Suit 		Gambling
 3  Fwd Obsvr    Blade Cbt       Gun Cbt	        Mechanical  	Jack-o-T    	Brawling
-4  Gunnery      Gun Cbt         Fwd Obsvr       Navigation 		Steward			Bribary
-5  Blade Cbt    Blade Cbt		Blade Cbt	    Electronics		Electronics		Blade Cbt	
-6  Gun Cbt      Gun Cbt		    Gun Cbt			Jack-o-T		Gun Cbt		    Gun Cbt		
+4  Gunnery      Gun Cbt         Fwd Obsvr       Navigation 		Steward			Bribery
+5  Blade Cbt    Blade Cbt		Blade Cbt	    Electronics		Electronics		Blade Cbt
+6  Gun Cbt      Gun Cbt		    Gun Cbt			Jack-o-T		Gun Cbt		    Gun Cbt
 
 
 Advance Education Table
@@ -24,7 +24,7 @@ Advance Education Table
 2  Mechanical   Mechanical		Mechanical		Mechanical		Mechanical		Mechanical
 3  Electronics  Electronics		Electronics		Electronics		Electronics		Electronics
 4  Engineering	Tactics         Tactics       	Jack-o-T 		Navigation		Gambling
-5  Gunnery   	Blade Cbt		Blade Cbt	    Gunnery			Gunnery			Brawling	
+5  Gunnery   	Blade Cbt		Blade Cbt	    Gunnery			Gunnery			Brawling
 6  Jack-o-T     Gun Cbt		    Gun Cbt			Medical			Medical		    Forgery
 
 
@@ -37,4 +37,3 @@ Advance Education Table Educ +8
 5  Pilot		Leader			Leader			Pilot			Pilot			Streetwise
 6  Admin		Admin			Admin			Jack-o-T		Admin			Jack-o-T
 
-	

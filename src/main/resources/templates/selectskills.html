@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+  <head>
+
+    <title>Traveller • Skills</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/traveller.css?v=1.0" th:href="@{/traveller.css(v='1.0')}"></head>
+  <body th:attr="data-context-path=@{/}"><header><a class="brand" th:href="@{/newcharacter}" href="/newcharacter" aria-label="Traveller character creator"><span class="logo"><img src="/traveller-cover.png" th:src="@{/traveller-cover.png}" alt="Traveller"></span><span class="brand-caption">CHARACTER CREATOR</span></a><span class="edition">SCIENCE-FICTION ADVENTUREIN THE FAR FUTURE</span></header><main><ol class="steps"><li class="complete" ><span>01</span>Identity</li><li class="complete" ><span>02</span>Characteristics</li><li class="complete" ><span>03</span>Service</li><li class="active" aria-current="step"><span>04</span>Skills</li><li><span>05</span>Muster Out Benefits</li><li><span>06</span>Final Character</li></ol><section class="intro"><p class="eyebrow">PERSONNEL FILE / 04</p><h1>Experience makes the traveller.</h1><p>Choose a training table to shape your character’s abilities.</p></section><div class="workspace"><section class="panel">
+    <form action="#" th:action="@{/selectskills}" th:object="${character}" method="post">
+
+<input type="hidden" th:field="*{name}" />
+<input type="hidden" th:field="*{age}" /><input type="hidden" th:field="*{service}" />
+
+<input type="hidden" th:field="*{characteristics.strength}" />
+<input type="hidden" th:field="*{characteristics.dexterity}" />
+<input type="hidden" th:field="*{characteristics.endurance}" />
+<input type="hidden" th:field="*{characteristics.intelligence}" />
+<input type="hidden" th:field="*{characteristics.education}" />
+<input type="hidden" th:field="*{characteristics.socialStanding}" />
+      <h4><underline> Service: </underline><label> <spring:message th:text="*{service}"/> </label></h4>
+      <section class="career-progress" aria-label="Service term progress">
+        <p><strong th:text="${'Term ' + career.term}">Term 1</strong> · <span th:text="${career.rollsUsed + ' of ' + career.rollAllowance + ' skill rolls used'}"></span> · <span th:text="${'Age ' + character.age}"></span></p>
+        <p>Two skill rolls in your first term; one per later term. Scouts receive two every term. Each successful commission or promotion adds one skill roll. Each term lasts four years.</p>
+        <p th:if="${career.musteredOut}"><strong>Service complete — mustered out.</strong></p>
+      </section>
+      <section class="career-progress" aria-label="Rank and advancement">
+        <p><strong th:text="${career.rankTitle}"></strong><span th:if="${career.rankedService}" th:text="${' · Rank ' + career.rank}"></span></p>
+        <p th:if="${career.drafted and career.term == 1}">Drafted characters cannot attempt a commission during the first term.</p>
+        <p th:unless="${career.rankedService}">Scouts and Other have no commissions or promotions.</p>
+        <div class="career-decisions" th:if="${career.canCommission}">
+          <p th:text="${'Commission: ' + career.commissionTarget + '+ on 2D6; DM +' + career.commissionModifier(character.characteristics) + '. One attempt this term.'}"></p>
+          <button type="submit" name="advancementAction" value="commission">Roll for commission</button>
+          <button type="submit" name="advancementAction" value="skip">Skip commission</button>
+        </div>
+        <div class="career-decisions" th:if="${career.canPromote}">
+          <p th:text="${'Promotion: ' + career.promotionTarget + '+ on 2D6; DM +' + career.promotionModifier(character.characteristics) + '. One attempt this term.'}"></p>
+          <button type="submit" name="advancementAction" value="promotion">Roll for promotion</button>
+          <button type="submit" name="advancementAction" value="skip">Skip promotion</button>
+        </div>
+        <p th:if="${career.advancementPending}">Roll or skip advancement before rolling skills.</p>
+        <p th:if="${career.bonusSkillRolls > 0}" th:text="${career.bonusSkillRolls + ' extra skill roll(s) earned this term.'}"></p>
+      </section>
+      <h4><underline> Select Skill Category </underline></h4>
+      <div class="table-scroll"><table>
+        <tr><th>Die roll</th><th>PersonalDevelopment</th><th>ServiceSkills</th><th>AdvanceEducation</th><th>Advanced EducationEducation + 8</th></tr>
+        <tr th:each="skill : ${skills}">
+          <td th:text="${skill.dieRole}">Die roll</td>
+          <td th:text="${skill.personalDevelopment}">personalDevelopment</td>
+          <td th:text="${skill.serviceSkill}">serviceSkill</td>
+          <td th:text="${skill.advancedEducation}">advancedEducation</td>
+          <td th:text="${skill.advancedEducationPlusEduc}">advancedEducationPlusEduc</td>
+        </tr>
+        <tr>
+          <td style="border-style:none">select</td>
+          <td><input type="radio" id="PersonalDevelopment" th:disabled="${career.termComplete or career.musteredOut or career.advancementPending}" name="selectSkillTable" value="PersonalDevelopment" aria-label="PersonalDevelopment"></td>
+          <td><input type="radio" id="ServiceSkills" th:disabled="${career.termComplete or career.musteredOut or career.advancementPending}" name="selectSkillTable" value="ServiceSkills" aria-label="ServiceSkills"></td>
+          <td><input type="radio" id="AdvanceEducation" th:disabled="${career.termComplete or career.musteredOut or career.advancementPending}" name="selectSkillTable" value="AdvanceEducation" aria-label="AdvanceEducation"></td>
+          <td><input type="radio" id="AdvanceEducationPlus" th:disabled="${career.termComplete or career.musteredOut or career.advancementPending}" name="selectSkillTable" value="AdvanceEducationPlus" aria-label="AdvanceEducationPlus"></td>
+        </tr>
+      </table></div>
+      <input type="submit" name="attempt" value="Roll dice" class="buttons" th:if="${!career.termComplete and !career.musteredOut and !career.advancementPending}" />
+      <p role="status" th:text="${result != null ? result : career.message}"></p>
+      <section class="career-decisions" th:if="${career.decisionReady}" aria-label="End of term">
+        <p>All skill rolls for this term are complete. Choose your next step.</p>
+        <p th:text="${'Re-enlistment needs ' + career.reenlistTarget + '+ on 2D6. A 12 requires another term, even when choosing Muster out. After seven terms, only a 12 permits another term.'}"></p>
+        <button type="submit" name="careerAction" value="reenlist">Re-enlist</button>
+        <button type="submit" name="careerAction" value="muster">Muster out</button>
+      </section>
+      <section th:if="${!career.history.empty}" aria-label="Career record">
+        <h4>Career record</h4><ul><li th:each="entry : ${career.history}" th:text="${entry}"></li></ul>
+      </section>
+      <input type="submit" name="continue" value="Continue →" class="buttons" th:hidden="${continueButton eq 'hidden'}"/>
+    </form>
+  </section><aside class="mission"><p class="eyebrow">TRANSMISSION / 001</p><h2>A life before<br>the adventure.</h2><p>From your first enlistment to the skills you carry into the unknown, build a character with a story to tell.</p><div class="orbit" aria-hidden="true"><span>✦</span></div><p class="aside-caption">YOUR NEXT CHAPTER<br>IS OUT THERE.</p></aside></div><footer><span>TRAVELLER / CHARACTER CREATOR · VERSION 1.0</span><a th:href="@{/newcharacter}" href="/newcharacter">Start a new character ↗</a></footer></main><script src="/stage-navigation.js?v=1.0" th:src="@{/stage-navigation.js(v='1.0')}"></script></body>
+</html>

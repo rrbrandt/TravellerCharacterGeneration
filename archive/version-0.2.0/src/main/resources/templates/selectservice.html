@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Select a Traveller Service</title>
+  <link rel="stylesheet" th:href="@{/css/app.css}" href="/css/app.css">
+</head>
+<body>
+<main class="panel wide">
+  <p class="eyebrow">Step 3 of 3</p>
+  <h1>Select a service</h1>
+  <p class="lede"><strong th:text="${character.name}">Character</strong> · UPP <span th:text="${character.characteristics.upp}">777777</span></p>
+  <p class="error-box" th:if="${serviceError}" th:text="${serviceError}"></p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Service</th><th>Enlist</th><th>Survive</th><th>Commission</th><th>Promotion</th><th>Modifiers</th><th>Choose</th></tr></thead>
+      <tbody>
+      <tr th:each="service : ${services}">
+        <th th:text="${service.displayName}">Navy</th>
+        <td th:text="${service.enlistmentTarget} + '+'">8+</td>
+        <td th:text="${service.survivalTarget} + '+'">5+</td>
+        <td th:text="${service.commissionTargetLabel}">10+</td>
+        <td th:text="${service.promotionTargetLabel}">8+</td>
+        <td class="small" th:text="${service.enlistmentModifiers}">Modifiers</td>
+        <td>
+          <form class="service-actions" th:action="@{/service}" method="post">
+            <input type="hidden" name="service" th:value="${service.name()}">
+            <button type="submit" name="action" value="accept">Join</button>
+            <button class="primary" type="submit" name="action" value="attempt">Attempt</button>
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="hint">Join selects a service directly. Attempt rolls 2D6 with the listed modifiers; a failed attempt invokes the draft.</p>
+</main>
+</body>
+</html>
