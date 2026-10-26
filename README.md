@@ -60,3 +60,41 @@ node verification/final-character.cjs http://localhost:8082
 ```
 
 Set `PLAYWRIGHT_CHANNEL=msedge` to use an existing Microsoft Edge installation.
+
+## Traffic protection
+
+`deploy/traffic_guard.py install --monthly-gib 100` (root) installs:
+
+- Traveller request limits: 2 requests/second per IP with a burst of 20, and
+  30 requests/second per hostname with a burst of 60.
+- Eight concurrent requests per IP and 40 per hostname; excess requests get 429.
+- A 32 KiB request-body limit and shorter timeouts.
+- Outbound-interface monitoring every 30 seconds, with an 80% warning in the
+  systemd journal and a Traveller-only 503 pause at the configured threshold.
+- Coverage for the Traveller subdomain and other active Nginx locations proxying
+  the same application. Existing unrelated applications and certificates stay intact.
+
+The default cutoff is **100 GiB per UTC calendar month**, measured from installation.
+The counter includes the entire default-route interface (other apps and private
+traffic included), so it is deliberately conservative. Initial installation does
+not reconstruct earlier traffic. Usage survives reboots. The pause automatically
+clears in the next UTC month. Warnings are in server logs, not emailed.
+
+This is **not a provider-enforced billing cap**: traffic before installation,
+monitoring delay, existing transfers, TLS overhead, small rejection responses,
+and other services can still incur charges. Check the provider's transfer allowance
+and billing independently. The guard does not change DigitalOcean billing alerts.
+
+```sh
+/usr/local/sbin/traveller-traffic-guard status
+journalctl -u traveller-traffic-guard.service --no-pager -n 20
+```
+
+Configuration is `/var/lib/traveller-traffic/config.json`; after changing the
+monthly limit, run `/usr/local/sbin/traveller-traffic-guard tick` to apply it.
+The installer preserves the existing limit when rerun. Nginx files are backed up
+under `/var/backups/traveller-traffic-*` with a manifest. Failed installation
+restores the previous Nginx configuration before returning an error.
+
+Run `python3 verification/traffic_guard_test.py` for the traffic-ledger and
+Nginx-scope selection tests.
