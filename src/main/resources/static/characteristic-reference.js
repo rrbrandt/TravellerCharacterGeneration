@@ -1,4 +1,5 @@
 (() => {
+  const nobleTitles = {11:'Knight / Dame',12:'Baron / Baroness',13:'Marquis / Marchioness',14:'Count / Countess',15:'Duke / Duchess'};
   const meanings = {
     strength: ['physical strength', 'Physical power and muscular force.'],
     dexterity: ['coordination', 'Agility, balance and fine control.'],
@@ -21,9 +22,18 @@
         const band = score <= 2 ? 'Very low' : score <= 5 ? 'Below-average' : score <= 8 ? 'Typical' : score <= 10 ? 'Above-average' : score <= 12 ? 'Exceptional' : 'Extraordinary';
         text = `${band} ${meanings[key][0]}. ${meanings[key][1]}`;
         if (key === 'education') text += score >= 8 ? ' EDU 8+: eligible for the advanced education 8+ skill table.' : ' EDU below 8: the advanced education 8+ skill table is unavailable.';
-        if (key === 'socialStanding' && score >= 11) text += ' SOC 11+: noble standing in the standard Imperial setting; titles depend on the campaign.';
+        if (key === 'socialStanding') {
+          text += score >= 11 ? ` Imperial noble standing: ${nobleTitles[score]}.` : ' No noble title from this Social Standing score.';
+        }
       }
       row.querySelector('.reference-meaning').textContent = text;
+      if (key === 'socialStanding') {
+        for (const titleRow of document.querySelectorAll('[data-noble-score]')) {
+          const selected = valid && (score <= 10 ? titleRow.dataset.nobleScore === 'none' : Number(titleRow.dataset.nobleScore) === score);
+          titleRow.classList.toggle('current-title', selected);
+          if (selected) titleRow.setAttribute('aria-current','true'); else titleRow.removeAttribute('aria-current');
+        }
+      }
     }
   }
   document.querySelector('.character-edit-row')?.addEventListener('input', update);

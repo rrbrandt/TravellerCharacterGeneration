@@ -2,13 +2,13 @@
 set -euo pipefail
 [[ $(id -u) == 0 ]]
 payload=$(realpath "${1:?WAR path required}")
-expected=3F5AA4DD246560FA32770456D2267D4F4BC659C10B4B9201A26242FF0BC74CB0
+expected=2DD7D8D568D593380195C40AAF19C870FD1B808784D97B303318FE68E13ADEA5
 [[ $(sha256sum "$payload" | cut -d' ' -f1 | tr '[:lower:]' '[:upper:]') == "$expected" ]]
 unit=traveller-generator.service
 target=/opt/traveller/traveller-generator.war
 base=http://127.0.0.1:8082/traveller
 [[ -f "$target" && -d /var/lib/traveller-characters ]]
-backup=$(mktemp -d /var/tmp/traveller-before-reference.XXXXXX)
+backup=$(mktemp -d /var/tmp/traveller-before-nobility.XXXXXX)
 cp -p "$target" "$backup/traveller.war"
 rollback() {
  status=$?; trap - ERR
@@ -25,7 +25,7 @@ install -o "$(stat -c %u "$target")" -g "$(stat -c %g "$target")" -m "$(stat -c 
 systemctl start "$unit"
 healthy=false
 for attempt in $(seq 1 45); do
- if curl -fsS --max-time 5 "$base/characteristics" -o "$backup/characteristics.html" 2>"$backup/startup.log" && grep -q 'What your rolls mean' "$backup/characteristics.html"; then healthy=true; break; fi
+ if curl -fsS --max-time 5 "$base/characteristics" -o "$backup/characteristics.html" 2>"$backup/startup.log" && grep -q 'Social Standing titles' "$backup/characteristics.html"; then healthy=true; break; fi
  sleep 2
 done
 "$healthy"
