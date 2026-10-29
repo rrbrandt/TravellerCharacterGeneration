@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class StageController {
-  @PostMapping("/stage")
+  @RequestMapping(value = "/stage", method = {RequestMethod.GET, RequestMethod.POST})
   public String stage(@RequestParam int stage, @ModelAttribute("character") TravellerCharacter character, Model model) {
     if (character.getCharacteristics() == null) character.setCharacteristics(new Characteristics());
     if (stage == 0) return "newcharacter";

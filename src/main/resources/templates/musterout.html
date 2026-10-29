@@ -2,11 +2,11 @@
 <html xmlns:th="https://www.thymeleaf.org">
   <head>
 
-    <title>Traveller • Muster Out Benefits</title>
+    <title>Classic Traveller — Books 0–8 • Muster Out Benefits</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/traveller.css?v=1.0" th:href="@{/traveller.css(v='1.0')}"></head>
-  <body th:attr="data-context-path=@{/}"><header><a class="brand" th:href="@{/newcharacter}" href="/newcharacter" aria-label="Traveller character creator"><span class="logo"><img src="/traveller-cover.png" th:src="@{/traveller-cover.png}" alt="Traveller"></span><span class="brand-caption">CHARACTER CREATOR</span></a><span class="edition">SCIENCE-FICTION ADVENTUREIN THE FAR FUTURE</span></header><main><ol class="steps"><li class="complete" ><span>01</span>Identity</li><li class="complete" ><span>02</span>Characteristics</li><li class="complete" ><span>03</span>Service</li><li class="complete"><span>04</span>Skills</li><li class="active" aria-current="step"><span>05</span>Muster Out Benefits</li><li><span>06</span>Final Character</li></ol><section class="intro"><p class="eyebrow">PERSONNEL FILE / 05</p><h1>Your service. Your rewards.</h1><p>Collect the benefits earned during your service.</p></section><div class="workspace"><section class="panel">
-    <form action="#" th:action="@{/musterout}" th:object="${character}" method="post">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="/traveller.css?v=20261028-benefit-tables" th:href="@{/traveller.css(v='20261028-benefit-tables')}"></head>
+  <body th:attr="data-context-path=@{/}"><header><a class="brand" th:href="@{/newcharacter}" href="/newcharacter" aria-label="Traveller character creator"><span class="logo"><img src="/traveller-cover.png" th:src="@{/traveller-cover.png}" alt="Traveller"></span><span class="brand-caption">CHARACTER CREATOR<span style="display:block;letter-spacing:.12em">CLASSIC TRAVELLER · BOOKS 0–8</span></span></a><span class="edition">SCIENCE-FICTION ADVENTUREIN THE FAR FUTURE</span></header><main><ol class="steps"><li class="complete" ><span>01</span>Identity</li><li class="complete" ><span>02</span>Characteristics</li><li class="complete" ><span>03</span>Service</li><li class="complete"><span>04</span>Skills</li><li class="active" aria-current="step"><span>05</span>Muster Out Benefits</li><li><span>06</span>Final Character</li></ol><section class="intro"><p class="eyebrow">PERSONNEL FILE / 05</p><h1>Your service. Your rewards.</h1><p>Collect the benefits earned during your service.</p></section><nav class="stage-arrows character-storage" aria-label="Character storage"><form class="character-save-form" method="post" th:action="@{/characters/save}"><button type="submit">Save character</button></form><a th:href="@{/characters}">Saved characters</a></nav><div class="workspace"><section class="panel">
+    <form action="#" th:action="@{/musterout}" th:object="${character}" method="post" th:attr="data-active-stage=${activeStage},data-read-only=${readOnlyStage}">
 
 <input type="hidden" th:field="*{name}" />
 <input type="hidden" th:field="*{age}" />
@@ -29,6 +29,19 @@
         </section>
         <p th:text="${career.rankTitle + ' · Rank bonus: ' + career.rankBenefitBonus + ' benefit roll(s)'}"></p>
         <p>One benefit roll per completed term, plus rank bonuses: ranks 1–2 add one roll, 3–4 add two, and 5–6 add three. Choose cash or material benefits before each roll. You may take at most three cash rolls.</p>
+        <section class="benefit-tables" aria-label="Mustering-out benefit tables">
+          <div class="table-scroll"><table aria-label="Cash benefit table">
+            <caption th:text="${career.service + ' · Cash benefits'}"></caption>
+            <thead><tr><th scope="col">Die roll</th><th scope="col">Cash</th></tr></thead>
+            <tbody><tr th:each="amount, row : ${career.cashBenefitTable}"><th scope="row" th:text="${row.count}"></th><td th:text="${'Cr ' + #numbers.formatInteger(amount, 1, 'COMMA')}"></td></tr></tbody>
+          </table></div>
+          <div class="table-scroll"><table aria-label="Material benefit table">
+            <caption th:text="${career.service + ' · Material benefits'}"></caption>
+            <thead><tr><th scope="col">Die roll</th><th scope="col">Benefit</th></tr></thead>
+            <tbody><tr th:each="item, row : ${career.materialBenefitTable}"><th scope="row" th:text="${row.count}"></th><td th:text="${item}"></td></tr></tbody>
+          </table></div>
+        </section>
+        <p class="benefit-table-note">Roll one die on your chosen table. Cash row 7 requires the Gambling +1 modifier; material row 7 requires the rank +1 modifier for ranks 5–6. Each modifier is optional. A maximum of three rolls may be taken as cash.</p>
         <div th:if="${career.benefitRollsRemaining > 0}" class="career-decisions">
           <label><input type="radio" name="benefitTable" value="cash" th:disabled="${career.cashRollsUsed >= 3}" required> Cash</label>
           <label><input type="radio" name="benefitTable" value="material" required> Material benefits</label>
@@ -41,5 +54,5 @@
         <p role="status" th:if="${result != null}" th:text="${result}"></p>
         <section th:if="${!career.benefits.empty}" aria-label="Benefits received"><h4>Benefits received</h4><ul><li th:each="benefit : ${career.benefits}" th:text="${benefit}"></li></ul></section>
       </section></form>
-  </section><aside class="mission"><p class="eyebrow">TRANSMISSION / 001</p><h2>A life before<br>the adventure.</h2><p>From your first enlistment to the skills you carry into the unknown, build a character with a story to tell.</p><div class="orbit" aria-hidden="true"><span>✦</span></div><p class="aside-caption">YOUR NEXT CHAPTER<br>IS OUT THERE.</p></aside></div><footer><span>TRAVELLER / CHARACTER CREATOR · VERSION 1.0</span><a th:href="@{/newcharacter}" href="/newcharacter">Start a new character ↗</a></footer></main><script src="/stage-navigation.js?v=1.0" th:src="@{/stage-navigation.js(v='1.0')}"></script></body>
+  </section><aside class="mission"><p class="eyebrow">TRANSMISSION / 001</p><h2>A life before<br>the adventure.</h2><p>From your first enlistment to the skills you carry into the unknown, build a character with a story to tell.</p><div class="orbit" aria-hidden="true"><span>✦</span></div><p class="aside-caption">YOUR NEXT CHAPTER<br>IS OUT THERE.</p></aside></div><footer><span>TRAVELLER / CHARACTER CREATOR · VERSION 1.0</span><a th:href="@{/newcharacter}" href="/newcharacter">Start a new character ↗</a></footer></main><script src="/stage-navigation.js?v=20261028-character-storage" th:src="@{/stage-navigation.js(v='20261028-character-storage')}"></script></body>
 </html>

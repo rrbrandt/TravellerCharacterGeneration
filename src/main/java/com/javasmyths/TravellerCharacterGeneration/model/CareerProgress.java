@@ -230,29 +230,13 @@ public class CareerProgress {
     String result;
     if ("cash".equals(table)) {
       if (gambling && useGambling) row++;
-      int[] amounts;
-      switch (service) {
-        case Navy: amounts = new int[]{1000,5000,5000,10000,20000,50000,50000}; break;
-        case Marines: amounts = new int[]{2000,5000,5000,10000,20000,30000,40000}; break;
-        case Army: amounts = new int[]{2000,5000,10000,10000,10000,20000,30000}; break;
-        case Scouts: amounts = new int[]{20000,20000,30000,30000,50000,50000,50000}; break;
-        case Merchants: amounts = new int[]{1000,5000,10000,20000,20000,40000,40000}; break;
-        default: amounts = new int[]{1000,5000,10000,10000,10000,50000,100000};
-      }
+      int[] amounts = getCashBenefitTable();
       credits += amounts[row];
       cashRollsUsed++;
       result = "Cr " + amounts[row];
     } else {
       if (isHighRankBonus() && useRankBonus) row++;
-      String[] items;
-      switch (service) {
-        case Navy: items = new String[]{"Low passage","+1 Intelligence","+2 Education","Blade","Travellers' Aid Society membership","High passage","+2 Social Standing"}; break;
-        case Marines: items = new String[]{"Low passage","+2 Intelligence","+1 Education","Blade","Travellers' Aid Society membership","High passage","+2 Social Standing"}; break;
-        case Army: items = new String[]{"Low passage","+1 Intelligence","+2 Education","Gun","High passage","Middle passage","+1 Social Standing"}; break;
-        case Scouts: items = new String[]{"Low passage","+2 Intelligence","+2 Education","Blade","Gun","Scout ship"}; break;
-        case Merchants: items = new String[]{"Low passage","+1 Intelligence","+1 Education","Gun","Blade","Low passage","Free Trader"}; break;
-        default: items = new String[]{"Low passage","+1 Intelligence","+1 Education","Gun","High passage","No benefit"};
-      }
+      String[] items = getMaterialBenefitTable();
       result = items[row];
       Characteristics stats = character.getCharacteristics();
       if (result.endsWith("Intelligence")) stats.setIntelligence(stats.getIntelligence() + (result.startsWith("+2") ? 2 : 1));
@@ -264,5 +248,25 @@ public class CareerProgress {
     String entry = "Rolled " + die + (row + 1 != die ? ("cash".equals(table) ? " (+1 Gambling)" : " (+1 rank)") : "") + " on " + table + ": " + result;
     benefits.add(entry);
     return entry;
+  }
+  public int[] getCashBenefitTable() {
+      switch (service) {
+        case Navy: return new int[]{1000,5000,5000,10000,20000,50000,50000};
+        case Marines: return new int[]{2000,5000,5000,10000,20000,30000,40000};
+        case Army: return new int[]{2000,5000,10000,10000,10000,20000,30000};
+        case Scouts: return new int[]{20000,20000,30000,30000,50000,50000,50000};
+        case Merchants: return new int[]{1000,5000,10000,20000,20000,40000,40000};
+        default: return new int[]{1000,5000,10000,10000,10000,50000,100000};
+      }
+  }
+  public String[] getMaterialBenefitTable() {
+      switch (service) {
+        case Navy: return new String[]{"Low passage","+1 Intelligence","+2 Education","Blade","Travellers' Aid Society membership","High passage","+2 Social Standing"};
+        case Marines: return new String[]{"Low passage","+2 Intelligence","+1 Education","Blade","Travellers' Aid Society membership","High passage","+2 Social Standing"};
+        case Army: return new String[]{"Low passage","+1 Intelligence","+2 Education","Gun","High passage","Middle passage","+1 Social Standing"};
+        case Scouts: return new String[]{"Low passage","+2 Intelligence","+2 Education","Blade","Gun","Scout ship"};
+        case Merchants: return new String[]{"Low passage","+1 Intelligence","+1 Education","Gun","Blade","Low passage","Free Trader"};
+        default: return new String[]{"Low passage","+1 Intelligence","+1 Education","Gun","High passage","No benefit"};
+      }
   }
 }

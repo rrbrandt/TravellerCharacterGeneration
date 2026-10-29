@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Classic Traveller — Books 0–8 • Saved Characters</title><link rel="stylesheet" th:href="@{/traveller.css(v='20261028-character-storage')}"></head>
+<body><header><a class="brand" th:href="@{/stage(stage=0)}"><span class="logo"><img th:src="@{/traveller-cover.png}" alt="Traveller"></span><span class="brand-caption">CHARACTER CREATOR<span style="display:block;letter-spacing:.12em">CLASSIC TRAVELLER · BOOKS 0–8</span></span></a></header><main>
+<section class="intro"><p class="eyebrow">PERSONNEL ARCHIVE</p><h1>Saved characters.</h1><p>Reopen a character to continue where you left off or review a completed record. Completed stages stay locked.</p><p>This library is shared on your home server. Saves remain available after the server restarts.</p></section>
+<p th:if="${param.saved != null}" role="status"><strong>Character saved.</strong></p>
+<nav class="stage-arrows library-nav"><a th:href="@{/stage(stage=${session.activeStage != null ? session.activeStage : 0})}">Return to current character</a><a th:href="@{/newcharacter}">Start a new character ↗</a></nav>
+<section class="panel"><p th:if="${saves.empty}">No characters saved yet. Choose “Save character” while creating or reviewing a character.</p>
+<article th:each="saved : ${saves}" class="summary-section">
+<h2 th:text="${saved.name}"></h2><p th:text="${saved.complete ? 'Completed character' : 'In progress'}"></p>
+<p th:text="${'Age ' + saved.character.age + ' · ' + saved.career.serviceStatus + (saved.career.service != null ? ' · ' + saved.career.service : '')}"></p>
+<p>Saved <time th:text="${saved.savedLabel}"></time></p>
+<form class="library-open" method="post" th:action="@{/characters/{id}/open(id=${saved.id})}"><button type="submit">Open character</button></form>
+</article></section><footer><span>TRAVELLER / SAVED CHARACTERS</span></footer></main></body></html>

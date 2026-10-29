@@ -3,6 +3,23 @@
   const form = document.querySelector('.panel form');
   const tabs = [...document.querySelectorAll('.steps li')];
   const current = tabs.findIndex(t => t.classList.contains('active'));
+  const activeStage = Number(form.dataset.activeStage || 0);
+  const readOnly = form.dataset.readOnly === 'true';
+  document.querySelector('.character-save-form')?.addEventListener('submit', event => {
+    const saveForm = event.currentTarget;
+    saveForm.querySelectorAll('[data-save-value]').forEach(input => input.remove());
+    const values = {fromStage: current};
+    if (!readOnly && current === activeStage) {
+      for (const [name,value] of new FormData(form)) {
+        if ((current === 0 && ['name','age'].includes(name)) ||
+            (current === 1 && name.startsWith('characteristics.'))) values[name] = value;
+      }
+    }
+    for (const [name,value] of Object.entries(values)) {
+      const input=document.createElement('input'); input.type='hidden'; input.name=name; input.value=value;
+      input.dataset.saveValue='true'; saveForm.append(input);
+    }
+  });
   const key = 'traveller-character-draft';
   let saved = {};
   try { saved = JSON.parse(sessionStorage.getItem(key) || '{}'); } catch {}
@@ -20,11 +37,19 @@
     }
   }
   function go(stage) {
-    carry();
-    form.action=contextPath+'stage';
-    let input=form.querySelector('[name=stage]');
-    if (!input) { input=document.createElement('input'); input.type='hidden'; input.name='stage'; form.append(input); }
-    input.value=stage; form.submit();
+    const navigation = document.createElement('form');
+    navigation.method='post'; navigation.action=contextPath+'stage';
+    const values = {stage, fromStage: current};
+    if (!readOnly && current === activeStage) {
+      for (const [name,value] of new FormData(form)) {
+        if ((current === 0 && ['name','age'].includes(name)) ||
+            (current === 1 && name.startsWith('characteristics.'))) values[name] = value;
+      }
+    }
+    for (const [name,value] of Object.entries(values)) {
+      const input=document.createElement('input'); input.type='hidden'; input.name=name; input.value=value; navigation.append(input);
+    }
+    document.body.append(navigation); navigation.submit();
   }
   tabs.forEach((tab, i) => {
     const button=document.createElement('button'); button.type='button'; button.innerHTML=tab.innerHTML;
@@ -40,9 +65,20 @@
   }
   document.querySelector('.steps').after(nav);
   form.addEventListener('submit', event=>{
+    if(readOnly) { event.preventDefault(); return; }
     carry();
     if(current===0 || (current===1 && event.submitter?.name!=='ReRoll')) {event.preventDefault(); go(current+1);}
   });
+  if (readOnly) {
+    const notice=document.createElement('p'); notice.className='stage-lock-notice'; notice.setAttribute('role','status');
+    notice.textContent='Completed stage — read only. Use the tabs to review your character or return to your current stage.';
+    form.prepend(notice);
+    form.querySelectorAll('input,select,textarea,button').forEach(control=>{
+      if(control.matches('input[type=text],input[type=number],textarea')) control.readOnly=true;
+      else control.disabled=true;
+      if(control.matches('button,input[type=submit],input[type=reset]')) control.hidden=true;
+    });
+  }
   document.querySelectorAll('a').forEach(a=>{if(new URL(a.href).pathname===contextPath+'newcharacter')a.addEventListener('click',()=>sessionStorage.removeItem(key));});
   // Hide repeated editing fields outside their owning stage; retain their form values.
   document.querySelectorAll('.field').forEach(label=>{

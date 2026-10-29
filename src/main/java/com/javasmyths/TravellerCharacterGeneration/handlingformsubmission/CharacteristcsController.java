@@ -20,7 +20,6 @@ public class CharacteristcsController {
     System.out.println("CharacteristcsController - get");
     System.out.println("****************************************");
     System.out.println("Character: " + character);
-    character.setCharacteristics(new Characteristics());
     model.addAttribute("character", character);
     return "characteristics";
   }

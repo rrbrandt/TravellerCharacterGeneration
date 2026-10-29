@@ -21,6 +21,8 @@ public class CharacterController {
     character.setCharacteristics(new Characteristics());
     session.setAttribute("travellerCharacter", character);
     session.removeAttribute("careerProgress");
+    session.removeAttribute("activeStage");
+    session.removeAttribute("savedCharacterId");
     model.addAttribute("character", character);
     return "newcharacter";
   }

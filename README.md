@@ -98,3 +98,9 @@ restores the previous Nginx configuration before returning an error.
 
 Run `python3 verification/traffic_guard_test.py` for the traffic-ledger and
 Nginx-scope selection tests.
+
+### Saved characters
+
+Use **Save character** on any stage to save a draft or completed character, and **Saved characters** to reopen it. Reopened drafts retain their progress and completed-stage locks. Saving again updates the same entry; starting a new character creates a separate save. Unsaved edits stay only in the browser session until saved.
+
+The library is shared by visitors to this server; there are no user accounts. Versioned JSON snapshots preserve identity, characteristics, career state, skills, benefits, history, and stage locks. Files are written atomically outside the WAR in `./data/characters`, relative to the application's working directory. Set `--traveller.storage-dir=/absolute/path` to override. The application account needs write access to that folder. Preserve and back up this directory when updating or moving the application. Storage failures are reported without claiming that a save succeeded.
