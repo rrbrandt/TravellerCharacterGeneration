@@ -104,3 +104,9 @@ Nginx-scope selection tests.
 Use **Save character** on any stage to save a draft or completed character, and **Saved characters** to reopen it. Reopened drafts retain their progress and completed-stage locks. Saving again updates the same entry; starting a new character creates a separate save. Unsaved edits stay only in the browser session until saved.
 
 The library is shared by visitors to this server; there are no user accounts. Versioned JSON snapshots preserve identity, characteristics, career state, skills, benefits, history, and stage locks. Files are written atomically outside the WAR in `./data/characters`, relative to the application's working directory. Set `--traveller.storage-dir=/absolute/path` to override. The application account needs write access to that folder. Preserve and back up this directory when updating or moving the application. Storage failures are reported without claiming that a save succeeded.
+
+### Version 1.0 characteristic reference
+
+The Characteristics page has a live reference chart on the right (below the rolls on smaller screens). It explains the six characteristics, shows the current decimal/UPP score, gives a general score reading, and notes the EDU 8+ training requirement. Score bands are roleplaying guidance, not additional rules, degrees, or mechanical bonuses. The page header and footer display version 1.0. Background: Far Future Enterprises, https://www.farfuture.net/Understanding%20Traveller.pdf.
+
+For an existing DoxyLabs installation with persistent storage configured, `deploy/update-reference.sh WAR` updates only the WAR with backup and automatic rollback. It preserves saved characters and the existing systemd storage and traffic-guard configuration.
