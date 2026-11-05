@@ -13,8 +13,8 @@
   <main>
     <div class="intro">
       <p class="eyebrow">IMPERIAL INTERSTELLAR SCOUT SERVICE / SURVEY OFFICE</p>
-      <h1>World <em>creator.</em></h1>
-      <p>Roll a complete star system or build outward from an existing world profile. Select a world to chart its surface.</p>
+      <h1 id="page-title">World <em>creator.</em></h1>
+      <p id="page-intro">Roll a complete star system or build outward from an existing world profile. Select a world to chart its surface.</p>
     </div>
     <form class="panel" id="survey-form">
       <p class="eyebrow">01 / SURVEY ORDERS</p>
@@ -24,7 +24,7 @@
         <label id="profile-field" hidden>Mainworld UWP <input name="uwp" maxlength="9" placeholder="A788899-C" disabled></label>
         <label>Seed <input name="seed" maxlength="80" placeholder="Random if blank"></label>
       </div>
-      <div class="actions"><button type="submit">Generate system</button><button class="secondary" id="regina" type="button">Use Regina’s profile</button></div>
+      <div class="actions"><button type="submit" id="generate" disabled>Generate system</button><button class="secondary" id="regina" type="button">Use Regina’s profile</button></div>
       <p id="error" role="alert" hidden></p>
     </form>
     <div id="report" hidden>

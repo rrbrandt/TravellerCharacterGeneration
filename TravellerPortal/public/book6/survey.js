@@ -31,6 +31,12 @@ function modeChanged() {
 }
 form.elements.mode.addEventListener("change", modeChanged);
 const params = new URLSearchParams(location.search);
+const surfaceShortcut = params.get("surface") === "1";
+if (surfaceShortcut) {
+  byId("page-title").textContent = "Generate surface";
+  byId("page-intro").textContent = "Roll a system or enter an existing mainworld profile. The surface map will open for the mainworld or the first solid world available.";
+  byId("generate").textContent = "Generate system and surface";
+}
 if (params.has("uwp")) {
   form.elements.mode.value = "continuation";
   form.elements.uwp.value = params.get("uwp").slice(0,9);
@@ -84,8 +90,14 @@ function showSurvey(record) {
     }
   }
   byId("report").hidden = false;
-  showBody(main);
-  byId("system-name").focus();
+  const mapped = surfaceShortcut ? (hasSurface(main) ? main : bodies.find(hasSurface)) : undefined;
+  showBody(mapped ?? main);
+  if (mapped) showSurface();
+  else byId("system-name").focus();
+}
+
+function hasSurface(item) {
+  return ["Planet","Captured planet","Moon"].includes(item.kind);
 }
 
 function showBody(item) {
@@ -110,7 +122,7 @@ function showBody(item) {
     profile.append(label,description);
   }
   byId("facilities").textContent = item.facilities.join(" · ");
-  const canMap = ["Planet","Captured planet","Moon"].includes(item.kind);
+  const canMap = hasSurface(item);
   byId("surface").hidden = !canMap;
   byId("body-note").textContent = canMap ? "" : "Select a solid planet or moon to generate a surface.";
   byId("roster").querySelectorAll("button").forEach(row =>
@@ -195,7 +207,7 @@ function showSites() {
   byId("move").textContent = moving ? "Cancel move" : "Move on map";
 }
 
-byId("surface").addEventListener("click", () => {
+function showSurface() {
   chart = surfaceFor(body,survey.seed);
   if (survey.surfaceEdits?.[body.id]) chart.sites = structuredClone(survey.surfaceEdits[body.id]);
   selectedSite = undefined;
@@ -206,7 +218,8 @@ byId("surface").addEventListener("click", () => {
   drawMap();
   showSites();
   byId("map-title").focus();
-});
+}
+byId("surface").addEventListener("click", showSurface);
 
 function rememberSites() {
   survey.surfaceEdits ??= {};
@@ -291,3 +304,4 @@ byId("download").addEventListener("click", () => {
   setTimeout(() => URL.revokeObjectURL(url),1000);
 });
 byId("print").addEventListener("click", () => window.print());
+byId("generate").disabled = false;
