@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Robot Workshop · Classic Traveller Book 8</title>
+  <link rel="stylesheet" href="../book6/scout.css"><link rel="stylesheet" href="workshop.css">
+  <script type="module" src="workshop.js"></script>
+</head>
+<body>
+  <header><a href="../">TRAVELLER <span>BOOK 8</span></a><a href="#report">Design report</a><a href="#archive">Saved robots</a><span id="version">VERSION 1.0</span></header>
+  <main>
+    <section class="intro">
+      <p class="eyebrow">ROBOTS / CLASSIC TRAVELLER 1986</p>
+      <h1>Robot <em>workshop.</em></h1>
+      <p>Give a machine a job. Choose its body, power, mobility, and software, then see what fits and what it costs.</p>
+    </section>
+    <nav class="panel presets" aria-label="Starter designs">
+      <span class="eyebrow">STARTER DESIGNS</span>
+      <button type="button" class="secondary" data-preset="utility" disabled>Dockside utility</button>
+      <button type="button" class="secondary" data-preset="rescue" disabled>Grav rescue scout</button>
+      <button type="button" class="secondary" data-preset="station" disabled>Station watch</button>
+    </nav>
+    <noscript><p>The worksheet requires JavaScript to calculate the design.</p></noscript>
+    <div class="desk">
+      <form id="design">
+        <section class="panel">
+          <p class="eyebrow">01 / MISSION AND CHASSIS</p><h2>Design brief</h2>
+          <label>Robot name <input name="name" maxlength="70"></label>
+          <label>Purpose <input name="purpose" maxlength="100"></label>
+          <div class="fields">
+            <label>Tech level <input type="number" name="tl" min="8" max="18" required></label>
+            <label>Budget (Cr, 0 for unlimited) <input type="number" name="budget" min="0" max="1000000000" required></label>
+            <label>Chassis volume <select name="size"></select></label>
+            <label>Chassis shape <select name="frame"></select></label>
+            <label>Armor <select name="armor"><option value="base">Standard for frame</option><option value="mesh">Mesh</option><option value="cloth">Cloth</option><option value="combat">Combat armor</option></select></label>
+            <label>Head volume (% of chassis) <input type="number" name="head" min="0" max="40" required></label>
+          </div>
+          <label class="check"><input type="checkbox" name="reflective"> Reflective finish</label>
+        </section>
+        <section class="panel">
+          <p class="eyebrow">02 / POWER AND DRIVE</p><h2>How it moves</h2>
+          <div class="fields">
+            <label>Power plant <select name="plant"><option value="-1">Battery only</option></select></label>
+            <label>Fuel loaded (L) <input type="number" name="fuel" min="0" max="4000" step=".1" required></label>
+            <label>Battery mass (kg) <input type="number" name="battery" min="0" max="4000" step=".1" required></label>
+            <label>Locomotion <select name="move"></select></label>
+            <label id="units">Grav or cushion modules <input type="number" name="units" min="1" max="30" required></label>
+            <label id="legs">Number of legs <input type="number" name="legs" min="1" max="9" required></label>
+            <label id="drive">Battery drive rating (kW) <input type="number" name="batteryDrive" min="1" max="500" required></label>
+            <label>Carried payload (kg) <input type="number" name="payload" min="0" max="20000" step=".1" required></label>
+          </div>
+          <label class="check"><input type="checkbox" name="sealed"> Fuel cell carries oxygen for vacuum or hostile atmosphere</label>
+          <p class="hint">Payload counts toward loaded mass and lift. The fuel calculation assumes the plant runs continuously.</p>
+        </section>
+        <section class="panel">
+          <p class="eyebrow">03 / MANIPULATORS AND EQUIPMENT</p><h2>Tools for the job</h2>
+          <div class="fields">
+            <label>Arm model <select name="arm"></select></label><label>Arms <input type="number" name="arms" min="0" max="12" required></label>
+            <label>Tentacle model <select name="tentacle"></select></label><label>Tentacles <input type="number" name="tentacles" min="0" max="12" required></label>
+          </div>
+          <p class="hint">Visual, audio, and smell sensors are included. Add equipment below.</p>
+          <div class="gear" id="gear"></div>
+          <label class="check"><input type="checkbox" name="circuit"> Electronic circuit protection</label>
+          <div class="fields"><label>Weapon package <select name="weapon"></select></label>
+            <label>Local law level <input type="number" name="law" min="0" max="18" required></label></div>
+        </section>
+        <section class="panel">
+          <p class="eyebrow">04 / PROGRAMS AND PROCESSORS</p><h2>What it knows</h2>
+          <div class="fields"><label>Fundamental logic <select name="logic"></select></label><label>Command program <select name="command"></select></label></div>
+          <details><summary>Applications and skill levels</summary>
+            <p class="hint">Level 0 skips an application. Check CPU for skills that must be active. Give Emotion Simulation level 1 to install it.</p>
+            <div id="programs"></div>
+          </details>
+          <div class="fields">
+            <label>Linear CPU units <input type="number" name="linear" min="0" max="1000" required></label>
+            <label>Parallel CPU units <input type="number" name="parallel" min="0" max="1000" required></label>
+            <label>Synaptic CPU units <input type="number" name="synaptic" min="0" max="1000" required></label>
+            <label>Standard storage units <input type="number" name="storage" min="0" max="1000" required></label>
+            <label>Synaptic storage units <input type="number" name="synStorage" min="0" max="1000" required></label>
+          </div>
+          <button type="button" class="secondary" id="auto-brain" disabled>Size brain to fit software</button>
+        </section>
+      </form>
+      <section aria-label="Robot design report" id="report">
+        <article class="panel">
+          <p class="eyebrow">DESIGN REPORT</p><h2 id="robot-name" tabindex="-1">Dockside utility</h2>
+          <p id="purpose" class="hint"></p><p id="status" role="status"></p><p class="upp" id="urp"></p>
+          <div class="meters" id="meters"></div>
+          <p id="brain" class="hint"></p><p id="attributes"></p><p id="installed-programs" class="hint"></p>
+          <ul id="errors" class="error" hidden></ul><ul id="warnings" class="hint" hidden></ul>
+          <div class="actions"><button id="save" disabled>Save robot</button><button id="download" class="secondary" disabled>Download JSON</button><button id="print" class="secondary" disabled>Print design</button></div>
+          <p class="hint" id="notice" role="status"></p>
+        </article>
+        <article class="panel"><p class="eyebrow">COMPONENT LEDGER</p><h2>Every liter and credit</h2>
+          <div class="table-frame"><table><thead><tr><th scope="col">Component</th><th scope="col">L</th><th scope="col">kg</th><th scope="col">kW</th><th scope="col">Cr</th></tr></thead><tbody id="ledger"></tbody></table></div>
+        </article>
+        <article class="panel" id="archive"><h2>Saved robots</h2><p class="hint">Designs are saved in this browser.</p><ul id="saved"></ul></article>
+        <details class="panel" id="conventions"><summary>Rules and worksheet conventions</summary>
+          <p>Uses a selection of components and programs from the 1986 Book 8 construction rules. Equipment with a listed mass and no listed volume is allocated 1 L per kg. This worksheet fits installed gear inside the chassis or head and does not assign gear to individual arms.</p>
+          <p>For battery-only ground drives, enter a transmission rating. Other battery-only designs report endurance from stored energy and the design’s draw. Weapon-law messages are prompts for the referee.</p>
+          <p><a href="https://www.mongoosepublishing.com/products/book-8-robots-ebook">Classic Traveller Book 8: Robots</a></p>
+        </details>
+      </section>
+    </div>
+    <footer>CLASSIC TRAVELLER / BOOK 8 ROBOTS</footer>
+  </main>
+</body>
+</html>

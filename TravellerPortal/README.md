@@ -1,6 +1,12 @@
 # Classic Traveller Books 0–8 portal
 
-The current DoxyLabs site uses the static files in [public](public/). It links Book 0, Books 1–7 tools, and account sign-in. The [dist](dist/) directory holds the home-server version.
+The current DoxyLabs site uses the static files in [public](public/). It links Book 0, Books 1–8 tools, and account sign-in. The [dist](dist/) directory holds the home-server version.
+
+## Book 8 · Robot Workshop
+
+Robot Workshop 1.0 is at `/book8/`. Start from an original utility, grav rescue, or battery-powered station robot. The worksheet uses selected 1986 Book 8 component and application tables to calculate the Universal Robot Profile, volume, loaded mass, power, thrust, endurance, cost, and annual maintenance. It checks software and processor requirements. Designs can be saved in the browser, printed, or downloaded.
+
+The worksheet allocates 1 L per kg to equipment that has no listed volume and fits gear inside the body or head. Battery-only ground drives use a declared transmission rating. Weapon-law prompts call for referee judgment. These are construction worksheets with a selected catalog of components and programs.
 
 ## Book 7 · Merchant Prince
 
