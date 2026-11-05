@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Merchant Careers · Classic Traveller Book 7</title>
+  <link rel="stylesheet" href="../book6/scout.css"><link rel="stylesheet" href="merchant.css">
+  <script type="module" src="merchant.js"></script>
+</head>
+<body>
+  <header><a href="../">TRAVELLER <span>BOOK 7</span></a><a href="trade.html">Trade Desk</a><span>VERSION 1.0</span></header>
+  <main>
+    <section class="intro"><p class="eyebrow">MERCHANT PRINCE / CLASSIC TRAVELLER 1985</p>
+      <h1>Merchant <em>careers.</em></h1><p>Sign on with a merchant line, work your way through the departments, and muster out with a résumé.</p></section>
+    <div class="desk">
+      <form id="career-form" class="panel">
+        <p class="eyebrow">01 / APPLICATION</p><h2>Sign on</h2>
+        <label>Name <input name="name" maxlength="70" placeholder="Unnamed merchant"></label>
+        <div class="fields">
+          <label>Starting UPP <input name="upp" pattern="[1-9A-Ca-c]{6}" maxlength="6" placeholder="Roll 2D each"></label>
+          <label>Homeworld starport <select name="port"><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>X</option></select></label>
+          <label>Preferred line <select name="line" id="lines"></select></label>
+          <label>Quick-roll terms <input type="number" name="terms" min="1" max="7" value="3" required></label>
+        </div>
+        <details><summary>Career choices</summary>
+          <div class="fields">
+            <label>Skill table preference <select name="skillTable"><option value="department">Department</option><option value="life">Merchant life</option><option value="commerce">Mercantile where eligible</option><option value="officer">Officer where eligible</option></select></label>
+            <label>Cash benefit rolls <input type="number" name="cashRolls" value="1" min="0" max="3" required></label>
+            <label>Academy honors department <select name="academyDepartment" id="departments"><option value="-1">Roll for department</option></select></label>
+            <label>Gun Combat specialty <select name="gun"><option>Handgun</option><option>SMG</option><option>Rifle</option><option>Shotgun</option><option>Carbine</option><option>Laser Weapons</option></select></label>
+          </div>
+          <label class="check"><input type="checkbox" name="college"> Apply to college</label>
+          <label class="check"><input type="checkbox" name="academy"> Apply to Merchant Academy when eligible</label>
+          <label class="check"><input type="checkbox" name="draft" checked> Try the draft if enlistment fails</label>
+          <label class="check"><input type="checkbox" name="medic"> Prefer the Purser medical track when eligible</label>
+          <label class="check"><input type="checkbox" name="dutyBonus"> Use the optional senior officer assignment choice</label>
+          <label class="check"><input type="checkbox" name="injury"> Discharge on failed survival</label>
+        </details>
+        <div class="actions"><button name="mode" value="quick" disabled>Roll full career</button><button class="secondary" name="mode" value="step" disabled>Play year by year</button></div>
+        <noscript><p>Career generation requires JavaScript.</p></noscript>
+      </form>
+      <section aria-label="Merchant résumé">
+        <article class="panel">
+          <p class="eyebrow">02 / RÉSUMÉ</p><h2 id="name" tabindex="-1">Awaiting an applicant</h2>
+          <p id="status" role="status">Roll a career to start the résumé.</p>
+          <div id="sheet" hidden><p class="upp" id="upp"></p><p id="posting"></p><p class="hint" id="history"></p>
+            <div class="fields"><section><h3>Skills</h3><ul id="skills"></ul></section><section><h3>Benefits</h3><ul id="benefits"></ul></section></div>
+          </div>
+          <div class="actions">
+            <button id="next" hidden>Continue career</button><button id="leave" class="secondary" hidden>Muster out</button>
+            <button id="save" hidden>Save merchant</button><button id="download" class="secondary" hidden>Download JSON</button><button id="print" class="secondary" hidden>Print</button>
+          </div><p class="hint" id="notice" role="status"></p>
+        </article>
+        <article class="panel" id="career-log" hidden><p class="eyebrow">03 / POSTINGS AND DICE</p><h2>Career log</h2><div id="log"></div></article>
+        <article class="panel" id="archive"><h2>Saved merchants</h2><p class="hint">Saves stay in this browser.</p><ul id="saved"></ul></article>
+      </section>
+    </div>
+    <footer>CLASSIC TRAVELLER / BOOK 7 MERCHANT PRINCE</footer>
+  </main>
+</body>
+</html>

@@ -1,6 +1,12 @@
 # Classic Traveller Books 0–8 portal
 
-The current DoxyLabs site uses the static files in [public](public/). It links Book 0, Books 1–6 tools, and account sign-in. The [dist](dist/) directory holds the home-server version.
+The current DoxyLabs site uses the static files in [public](public/). It links Book 0, Books 1–7 tools, and account sign-in. The [dist](dist/) directory holds the home-server version.
+
+## Book 7 · Merchant Prince
+
+Merchant Prince 1.0 is at `/book7/`, with the Trade Desk at `/book7/trade.html`. Careers use the 1985 book’s six line types, enlistment and education, yearly assignments, commission exams, transfers, bonuses and mustering out. Quick roll follows the recruit preferences. Year-by-year play pauses between postings and lets the player decide on optional re-enlistment. Other choices follow the recruit settings.
+
+The Trade Desk takes manual UWP entries or an exported Book 3 atlas or Book 6 survey. It can read the declared hold from a saved ship export or accept available tonnage from a ship worksheet. Freight is loaded in whole lots. Speculative goods use Book 7’s sourceworld pricing, market modifiers and brokered sale roll. This release uses Imperial trade and reconstructs the market pairings from the book’s descriptions where the table scan is ambiguous. Voyage costs are entered by the referee. Résumés and settled voyages can be saved in the browser, printed, or downloaded as JSON.
 
 ## Book 6 · Scouts
 

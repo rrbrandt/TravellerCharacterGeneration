@@ -1,0 +1,19 @@
+:root { --accent: #e4c48a; --panel: #252723; --line: #4c5042; }
+header { flex-wrap: wrap; }
+.intro { margin-bottom: 28px; }
+.intro a { margin-right: 16px; }
+.error { color: #ffb7aa; }
+.quote { display: grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap: 12px; }
+.quote p { margin: 4px 0 12px; }
+.quote strong { color: var(--accent); font-size: 19px; }
+.lot-list { max-height: 270px; overflow: auto; }
+.lot-list label { margin: 2px 0; }
+.ledger { display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; }
+.ledger dd { margin: 0; text-align: right; }
+.ledger dt:last-of-type, .ledger dd:last-child { color: var(--accent); font-weight: 750; }
+.inline { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.inline > * { flex: 1 1 130px; }
+@media print {
+  #career-form, #voyage, #loadout, #offers, #imports { display: none; }
+  .ledger dt:last-of-type, .ledger dd:last-child, .quote strong { color: black; }
+}

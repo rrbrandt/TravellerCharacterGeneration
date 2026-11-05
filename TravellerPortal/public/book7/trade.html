@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trade Desk · Classic Traveller Book 7</title>
+  <link rel="stylesheet" href="../book6/scout.css"><link rel="stylesheet" href="merchant.css">
+  <script type="module" src="trade.js"></script>
+</head>
+<body>
+  <header><a href="../">TRAVELLER <span>BOOK 7</span></a><a href="./">Merchant careers</a><span>VERSION 1.0</span></header>
+  <main>
+    <section class="intro"><p class="eyebrow">MERCHANT PRINCE / CARGO OFFICE</p><h1>Trade <em>desk.</em></h1>
+      <p>Choose a source and a market, fill the hold, and find out what the voyage earned.</p></section>
+    <details class="panel" id="imports"><summary>Use a saved world or ship</summary>
+      <div class="fields">
+        <label>Book 3 atlas or Book 6 survey JSON <input type="file" id="atlas" accept=".json,application/json"></label>
+        <label>Book 2 or High Guard ship JSON <input type="file" id="ship" accept=".json,application/json"></label>
+      </div>
+      <div class="inline"><label>Available worlds <select id="worlds"></select></label>
+        <button type="button" class="secondary" id="set-source" disabled>Set source</button>
+        <button type="button" class="secondary" id="set-market" disabled>Set market</button>
+      </div>
+      <p class="hint" id="import-status" role="status">Saved Book 6 mainworlds from this browser are available here.</p>
+    </details>
+    <div class="desk">
+      <div>
+        <form id="voyage" class="panel">
+          <p class="eyebrow">01 / ROUTE QUOTE</p><h2>Source and market</h2>
+          <div class="fields">
+            <label>Source name <input name="sourceName" maxlength="60" placeholder="Rule"></label>
+            <label>Source UWP <input name="sourceUwp" maxlength="9" placeholder="C776977-7" required></label>
+            <label>Market name <input name="marketName" maxlength="60" placeholder="Regina"></label>
+            <label>Market UWP <input name="marketUwp" maxlength="9" placeholder="A788899-A" required></label>
+            <label>Market travel zone <select name="zone"><option value="green">Unrestricted</option><option value="amber">Amber</option><option value="red">Red</option></select></label>
+            <label>Liaison skill <input name="liaison" type="number" min="0" max="20" value="0" required></label>
+            <label>Days of expedited delivery <input name="accelerate" type="number" min="0" max="3" value="0" required></label>
+          </div>
+          <div class="actions"><button id="quote-button" disabled>Quote and roll freight</button>
+            <button type="button" class="secondary" id="example">Use Rule → Regina example</button></div>
+          <p class="error" id="quote-error" role="alert" hidden></p>
+          <noscript><p>Voyage calculations require JavaScript.</p></noscript>
+        </form>
+        <section class="panel" id="offers" hidden>
+          <p class="eyebrow">02 / FREIGHT CONTRACTS</p><h2>Lots available</h2>
+          <p class="hint">Select whole lots. Freight pays Cr 1,000 per ton.</p>
+          <div class="lot-list" id="lots"></div>
+        </section>
+      </div>
+      <div>
+        <section class="panel" id="market-quote" hidden>
+          <p class="eyebrow">03 / SPECULATIVE GOODS</p><h2 id="route" tabindex="-1"></h2>
+          <p id="world-codes" class="hint"></p>
+          <div class="quote">
+            <div>Purchase price per ton<p><strong id="purchase-price"></strong></p></div>
+            <div>Base sale price per ton<p><strong id="market-price"></strong></p></div>
+          </div>
+          <p id="modifiers" class="hint"></p>
+          <details><summary>Trade class adjustments</summary><ul id="pairs"></ul></details>
+        </section>
+        <form class="panel" id="loadout" hidden>
+          <p class="eyebrow">04 / MANIFEST</p><h2>Load the hold</h2>
+          <div class="fields">
+            <label>Ship name <input name="shipName" maxlength="60" placeholder="Free Trader"></label>
+            <label>Available hold (tons) <input name="hold" type="number" min="0" max="1000000" step="0.01" value="82" required></label>
+            <label>Speculative cargo (tons) <input name="tons" type="number" min="0" max="1000000" value="0" required></label>
+            <label>Broker level <input name="broker" type="number" min="0" max="4" value="0" required></label>
+            <label>Voyage expenses (Cr) <input name="expenses" type="number" min="0" max="1000000000" value="0" required></label>
+          </div>
+          <p id="capacity" role="status"></p><p class="error" id="sale-error" role="alert" hidden></p>
+          <button>Settle voyage</button>
+        </form>
+        <section class="panel" id="settled" hidden>
+          <p class="eyebrow">05 / SETTLED VOYAGE</p><h2 id="ledger-title" tabindex="-1"></h2>
+          <p id="sale-roll" class="hint"></p><p id="manifest"></p>
+          <dl id="ledger" class="ledger"></dl>
+          <div class="actions"><button id="save">Save voyage</button><button id="download" class="secondary">Download JSON</button>
+            <button id="print" class="secondary">Print</button></div><p class="hint" id="save-status" role="status"></p>
+        </section>
+      </div>
+    </div>
+    <section class="panel" id="archive"><h2>Saved voyages</h2><p class="hint">Saves stay in this browser.</p><ul id="saved"></ul></section>
+    <footer>CLASSIC TRAVELLER / BOOK 7 MERCHANT PRINCE</footer>
+  </main>
+</body>
+</html>
