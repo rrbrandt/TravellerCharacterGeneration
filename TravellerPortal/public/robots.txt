@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /traveller/characters
+Disallow: /shipyard/library
+Disallow: /shipyard/ships/
+
+Disallow: /worlds/library
+Disallow: /worlds/atlases/
+
+Sitemap: https://traveller.doxylabs.net/sitemap.xml

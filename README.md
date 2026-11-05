@@ -2,6 +2,22 @@
 
 Version **1.0.0** is the CatCathedral character generator, prepared for DoxyLabs.
 
+## Classic Traveller portal
+
+The [live portal](https://traveller.doxylabs.net/) links the Book 0 introduction, Books 1–5 applications, and account sign-in. This repository contains their source.
+
+| Component | Source | Live route |
+| --- | --- | --- |
+| Portal and Book 0 introduction | [TravellerPortal](TravellerPortal/) | `/`, `/book0/` |
+| Book 1 character generator | [src](src/) | `/traveller/` |
+| Book 2 ship designer | [TravellerShipBuilder](TravellerShipBuilder/) | `/shipyard/` |
+| Book 3 world builder | [TravellerWorldBuilder](TravellerWorldBuilder/) | `/worlds/` |
+| Book 4 Mercenary | [TravellerMercenary](TravellerMercenary/) | `/mercenary/` |
+| Book 5 High Guard ships and naval careers | [TravellerHighGuard](TravellerHighGuard/) | `/highguard/`, `/highguard/naval-career.html` |
+| Accounts and database schema | [TravellerAccounts](TravellerAccounts/), [database](TravellerPortal/database/) | `/account/login` |
+
+The Java applications use separate Maven POMs. Server credentials and saved player records belong to the deployment environment.
+
 ## Included in 1.0
 
 Six generation tabs: Identity, Characteristics, Service, Skills, Muster Out Benefits,

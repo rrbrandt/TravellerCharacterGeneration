@@ -1,0 +1,2 @@
+const service=document.getElementById('service');if(service)service.addEventListener('change',()=>{document.getElementById('arm').replaceChildren(...(service.value==='Army'?['Infantry','Cavalry','Artillery','Support']:['Marine Infantry','Support']).map(x=>new Option(x,x)));});
+document.getElementById('resume')?.addEventListener('change',e=>document.body.classList.toggle('resume',e.target.checked));

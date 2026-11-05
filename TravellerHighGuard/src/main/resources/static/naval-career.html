@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Naval Character Generation · Classic Traveller High Guard</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="naval-career.css">
+  <script type="module" src="naval-career.js"></script>
+</head>
+<body>
+  <header>
+    <a class="brand" href="./">TRAVELLER <span>BOOK 5</span></a>
+    <nav aria-label="High Guard"><a href="./">Ship designer</a><a href="#record">Service record</a><a href="#saved">Saved characters</a></nav>
+  </header>
+  <main class="naval">
+    <div class="naval-intro">
+      <div class="eyebrow">HIGH GUARD / CLASSIC TRAVELLER / REVISED 1980</div>
+      <h1>Naval character<br><em>generation.</em></h1>
+      <p>Follow a recruit from entry to discharge. Each service year records the posting, dice, modifiers, and outcome.</p>
+    </div>
+    <noscript><p>This generator uses JavaScript to roll and record careers.</p></noscript>
+    <div class="naval-workspace">
+      <form id="recruit" class="panel">
+        <div class="eyebrow">01 / RECRUIT FILE</div>
+        <h2>Set up a career</h2>
+        <label>Character name <input name="name" maxlength="70" placeholder="Unnamed recruit"></label>
+        <div class="fields">
+          <label>Starting UPP <input name="upp" pattern="[1-9A-Ca-c]{6}" maxlength="6" placeholder="Roll 2D each">
+            <small>Six values in STR, DEX, END, INT, EDU, SOC order. Use A–C for 10–12.</small>
+          </label>
+          <label>First navy to try <select name="navy">
+            <option value="2">Imperial</option><option value="1">Subsector</option><option value="0">Planetary</option>
+          </select></label>
+          <label>Homeworld TL <input name="planet" type="number" required value="10" min="0" max="15"></label>
+          <label>Subsector capital TL <input name="subsector" type="number" required value="12" min="0" max="15"></label>
+          <label>Entry path <select name="entry">
+            <option value="direct">Direct enlistment</option><option value="academy">Naval Academy</option><option value="college">College</option>
+          </select></label>
+          <label>School if eligible <select name="school">
+            <option value="none">None</option><option value="flight">Flight school</option><option value="medical">Medical school</option>
+          </select></label>
+          <label>Preferred branch <select name="branch">
+            <option value="-1">Roll</option><option value="0">Line / Crew</option><option value="1">Flight</option>
+            <option value="2">Gunnery</option><option value="3">Engineering</option><option value="4">Medical</option>
+            <option value="5">Technical Services</option>
+          </select></label>
+          <label>Desired terms <input name="terms" type="number" required value="3" min="1" max="7">
+            <small>Re-enlistment can shorten or extend service.</small>
+          </label>
+        </div>
+        <details>
+          <summary>Career choices</summary>
+          <div class="fields">
+            <label>Assignment skill table <select name="skillTable">
+              <option value="branch">Branch</option><option value="duty">By rank and duty</option><option value="life">Navy life</option>
+            </select></label>
+            <label>Survival DM traded for decoration <select name="risk">
+              <option value="0">0</option><option value="1">−1 survival / +1 decoration</option>
+              <option value="2">−2 survival / +2 decoration</option><option value="3">−3 survival / +3 decoration</option>
+            </select></label>
+            <label>Gunnery specialty <select name="gunnery">
+              <option>Lasers</option><option>Missiles</option><option>Particle Accelerators</option>
+              <option>Energy Weapons</option><option>Meson Weapons</option><option>Screens</option>
+            </select></label>
+            <label>Specialist School DM <input name="specialist" type="number" required value="0" min="0" max="6"></label>
+            <label>Next posting after flag aide <select name="aideDuty">
+              <option value="2">Patrol</option><option value="0">Training</option><option value="1">Shore duty</option>
+              <option value="3">Siege</option><option value="4">Strike</option><option value="5">Battle</option>
+            </select></label>
+            <label>Cash benefit rolls <input name="cashRolls" type="number" required value="1" min="0" max="3"></label>
+          </div>
+          <label class="check"><input type="checkbox" name="notc" checked> Apply for officer training during college</label>
+          <label class="check"><input type="checkbox" name="command" checked> Attempt command duty as an officer</label>
+          <label class="check"><input type="checkbox" name="specialBonus" checked> Apply the special-duty DM when eligible</label>
+          <label class="check"><input type="checkbox" name="transfer"> Transfer to preferred branch if cross-trained</label>
+        </details>
+        <div class="actions"><button type="submit">Roll naval career</button><button class="secondary" type="reset">Reset</button></div>
+        <p class="hint">This local preview automates player choices using these settings. An unsuccessful survival roll ends the career.</p>
+      </form>
+      <section id="record" aria-labelledby="record-title">
+        <article class="panel status" id="summary">
+          <div class="eyebrow">02 / SERVICE RECORD</div>
+          <h2 id="record-title">Awaiting a recruit</h2>
+          <p id="outcome" role="status">Roll a naval career to fill this record.</p>
+          <div id="sheet" hidden>
+            <p id="upp" class="usp"></p>
+            <p id="characteristics" class="hint"></p>
+            <p id="service"></p>
+            <div class="naval-ledger">
+              <div><h3>Skills</h3><ul id="skills"></ul></div>
+              <div><h3>Decorations</h3><ul id="medals"></ul></div>
+              <div><h3>Mustering out</h3><ul id="benefits"></ul></div>
+            </div>
+            <div class="actions"><button id="save" type="button">Save character</button>
+              <button class="secondary" id="download" type="button">Download record</button>
+              <button class="secondary" id="print" type="button">Print</button></div>
+          </div>
+          <p id="save-status" class="hint" role="status"></p>
+          <a id="saved-link" hidden>Open saved character</a>
+        </article>
+        <article id="history" class="panel" hidden>
+          <div class="eyebrow">03 / DICE AND OUTCOMES</div>
+          <h2>Career log</h2>
+          <div id="log"></div>
+        </article>
+        <section id="saved" class="panel">
+          <div class="eyebrow">04 / NAVAL ARCHIVE</div>
+          <h2>Saved characters</h2>
+          <p class="hint">The archive stores each character on this server. Anyone with the character’s link can open it. This list is kept in this browser.</p>
+          <ul id="saved-list"></ul>
+        </section>
+      </section>
+    </div>
+    <footer>CLASSIC TRAVELLER / HIGH GUARD NAVAL CAREER / LOCAL PREVIEW</footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,43 @@
+# Preview status — November 2, 2026
+
+Richard requested a Book2 ship builder using the character generator's stack. He selected **1981 revised**, explicitly asked for a **separate app**, and wants a **portal/menu later after reviewing the builder**. Do not fold it into the character generator or publish it to DoxyLabs yet.
+
+- Local preview http://localhost:18083/?preset=scout, Java process22012, executable target/TravellerShipBuilder.war, working directory this project. Preview bound127.0.0.1 only; source application.properties port18083. Keep running for Richard's review.
+- Java/SpringBoot2.5.10/MVC/Thymeleaf/vanillaJS/Jackson; Maven project0.1.0. No new external GitHub repository or public hosting created. Existing character app unchanged.
+- Preview packaging uses build-preview.ps1 to compile Java11 with existing dependency jars and replace all application classes/resources in an existing Boot WAR. Directory entries and manifest are rebuilt for classpath scanning; WAR contains only this app's application classes, verified. Standard Maven builds are self-contained given Maven Central access.
+- Final WAR SHA256 C34D7AD7DFAE18C277E52FA085A82963A1CF5B738C1DABAB063586D83B1E417C.
+- Rule engine covers hull100–5000, standard engineering sections, exact lettered drive potential, plant-letter checks, fuel, bridge/computer, quarters/crew, weapons/fire-control, vehicle catalogue, cargo, costs/fees/financing. Scout3t/MCr29.43 and FreeTrader82t/MCr37.08 benchmarks pass. Rules scope/interpretations are documented in README; software scheduling, custom small craft, deck plans/combat and Book5 excluded.
+- Independent saved designs in data/ships; versioned JSON, atomic files, save/update/open/export. Fixture save proved readable after actual process restart. Browser regression passed live calculations, invalid save rejection, save/update/fresh context/export, invalid IDs and mobile layout. Book2Check covers benchmark/design boundaries, crew, weapons, insufficient spaces and NaN. Screenshots verification/desktop.png and mobile.png inspected.
+- Two verification ships removed only by exact ID/name matches; library starts empty for review. Browser preview opening through open_in_codex returned queued, so provide clickable URL in final.
+
+## Approved Tomcathedral deployment — November 2, 2026
+
+Richard approved the preview and requested deployment to Tomcathedral plus a Books0–8 portal/menu. This supersedes the earlier local-only stage. Public DoxyLabs hosting was not requested.
+
+- Ship builder live http://192.168.1.187:8083/, installed C:\Server\TravellerShipBuilder\ship-builder.war (SHA256 C34D7AD7DFAE18C277E52FA085A82963A1CF5B738C1DABAB063586D83B1E417C). Java21, LocalService, ScheduledTask Traveller Ship Builder, boot trigger and restart settings. Xms64m/Xmx256m. Data C:\Server\TravellerShipBuilder\data\ships; logs sibling logs. Private LocalSubnet firewall8083. Startup task Running/LocalService/BootTrigger confirmed; full machine reboot not performed.
+- Source application.properties now sets SHIPYARD_SESSION; deployed WAR is original approved package with equivalent CLI override in scheduled task to isolate its cookie from character-generator JSESSIONID. Future package builds include the property by default.
+- Portal http://192.168.1.187:8080/traveller/ deployed as static context on existing Tomcat11, source C:\gitsrc\TravellerPortal\dist\index.html. Four links: character stage0 (preserves active session), character library, ship builder, ship library. No existing Tomcat apps or character data modified.
+- Deployed app browser regression passed real save/update/new-session restore/export under LocalService, validations and mobile. Exact temporary test ship ebe826a0-7556-43ad-b59a-8cfee2ecd665 with matching verification name removed. Local preview had no saved ships to migrate.
+- Portal browser verification passed all4 endpoints200, both tools, desktop/mobile no overflow and switching ship→character preserves an unsaved character session. Screenshots C:\gitsrc\TravellerPortal\desktop.png/mobile.png. Portal opening in Codex queued; provide direct link in final.
+- Installer outputs/Deploy-Traveller-Portal.ps1 checks absent target directories/task/port/rule and artifact hash before creating app/context, grants LocalService RX and Modify only for data/logs. Long encoded command exceeded Windows command length and -File execution was blocked by local script policy; uploaded script executed through existing ScriptBlock remote command channel without policy change. No need to rerun initial installer on existing deployment; inspect/back up before updates.
+
+## Small craft reference deployed — November 2, 2026
+
+- User requested basic stats when picking small craft: people and maneuver. Added metadata for all eight Book2(1981) standard craft and selection-driven cards in section05. Cards show per-craft listed people (pilot+rider2 except fighter1), maneuverG, hull, four-week fuel, excess fitting space and price. Passenger capacity explicitly depends on fittings; extra couches0.5t, no invented fixed capacity. Cutter30t module bay distinguished from2.5t excess. Only powered small craft have these cards; ground vehicles and detachable modules remain ledger entries.
+- Source Book2Rules.Vehicle metadata/helper, builder template, CSS and JS immediate show/hide/count. Card values derive from server catalogue; no costs or schema changes. New verification/craft-reference.cjs checks all8 mappings, quantity2, zero removal, save/reopen and mobile; passed locally and on deployed server. Scout benchmark unchanged. README documents reference scope.
+- Final WAR SHA2562E3DF9EB2F65F9F09230064C505BCC5E6D6627B480DE56967A01A934CC2EB277. Deployed C:\Server\TravellerShipBuilder\ship-builder.war; backup ship-builder-before-craft-reference-20261102-060654.war. Task Running, existing action/cookie/firewall/data preserved. Installer outputs/Update-ShipBuilder-CraftReference.ps1 uses hash preflight and automatic rollback. Portal unchanged.
+- Local preview process17676 remains running on18083. The earlier local preview22012 prevented packaging until identified/stopped with elevated permissions; rebuilt cleanly afterward. Local and remote exact verification JSONs removed after ID/name checks; user saves untouched. No DoxyLabs/public deployment or external repo creation.
+
+## Explicit passenger figures — November 2, 2026
+
+- User requested passenger count on each small-craft card. Added computed listedPassengers and seatingOnlyPassengers getters on static Vehicle metadata; listed count=people-1, couch-only upper bound=listed count+floor(excessSpace/0.5). Counts exclude one pilot. Cards show both metrics and state all spare space is used for couches at the maximum, with no additional cargo/cabins/weapons/fuel. Extra crew use passenger places. Cutter modules excluded from the craft-only maximum.
+- Checked maxima: launch27,boat28,slowBoat40,pinnace45,slowPinnace64,cutter6,shuttle143,fighter2. Listed-layout passengers1 except fighter0. These are fitting scenarios, not falsely labelled stock capacity. Derived mechanics use previously verified Book2 spare-space and couch-size data. No cost or saved-schema changes.
+- Browser checks extended to assert both counts for all8 craft; local and deployed tests passed plus quantity show/hide, save/reopen, mobile and Scout price. Exact local873fc315-c4b5-4acb-963a-10e89d975dfc and remote3edecc22-9f19-4b82-840f-fb49bd48d234 verification records removed by exact ID/name checks.
+- Deployed WAR SHA256344482FA3B08BFCDCDB7E73BA583F5F14189AEF1AA85FD6ED01F9A742023F64C; backup C:\Server\TravellerShipBuilder\ship-builder-before-passengers-20261102-062031.war. Task Running. Local preview22604 remains running. Portal and character app unchanged; no public/DoxyLabs deployment or repo push.
+
+Public deployment completed 2026-11-02:
+Portal: https://traveller.doxylabs.net/
+Ship designer: https://traveller.doxylabs.net/shipyard/
+Character generator remains at /traveller/.
+Ship service traveller-shipyard uses loopback 8084; persistent data /var/lib/traveller-ships; executable /opt/traveller-shipyard/ship-builder.war. Enabled on boot, separate user and storage. Nginx backup /var/backups/traveller-portal-20261102T145730Z/nginx-traveller. Public portal static files /var/www/traveller-portal; public source TravellerPortal/public/index.html. Existing Hex Frontier on 8083 and character service/data preserved. Existing traffic guard applies to both new routes.
+Verified public HTTP routes, portal desktop/mobile/navigation, all eight craft passenger/maneuver references, saved ship restore in fresh browser context, Scout benchmark. Removed exact verification fixture. Dynamic craft customization deferred by user.

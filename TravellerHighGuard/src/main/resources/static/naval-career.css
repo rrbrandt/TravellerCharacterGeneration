@@ -1,0 +1,18 @@
+.naval { max-width: 1310px; }
+.naval-intro p { max-width: 610px; color: var(--muted); margin-bottom: 32px; }
+.naval-workspace { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 24px; align-items: start; }
+.naval-ledger { display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: 14px; }
+.naval-ledger h3 { font-size: 14px; color: var(--gold); margin-bottom: 0; }
+.naval-ledger ul, #log ul { padding-left: 18px; font-size: 13px; }
+#log li { margin-bottom: 4px; overflow-wrap: anywhere; }
+.naval .status h2 { overflow-wrap: anywhere; }
+.naval #history summary { font-size: 13px; }
+@media (max-width: 820px) {
+  .naval-workspace { grid-template-columns: minmax(0, 1fr); gap: 0; }
+}
+@media print {
+  .naval-workspace { display: block; }
+  .naval #recruit, .naval .actions, .naval-intro, .naval #saved, .naval #save-status, .naval #saved-link { display: none; }
+  .naval .panel { background: white; border: 0; padding: 0; }
+  .naval .eyebrow, .naval .usp, .naval .hint, .naval h3, .naval details, .naval summary { color: black; }
+}
