@@ -1,0 +1,32 @@
+.survey-fields { display: grid; grid-template-columns: repeat(auto-fit,minmax(190px,1fr)); gap: 0 16px; }
+.survey-desk { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,.9fr); gap: 16px; align-items: start; }
+#error { color: #ffb7aa; }
+#roster { max-height: 530px; overflow: auto; }
+.star { margin: 16px 0 6px; }
+.orbit-row { display: grid; grid-template-columns: 4.5rem minmax(0,1fr) auto; gap: 8px; width: 100%; text-align: left; margin: 4px 0; padding: 7px 10px; }
+.orbit-row[aria-current="true"] { border-color: var(--accent); background: #315345; }
+.orbit-row.moon { padding-left: 22px; }
+.orbit-row small { color: var(--muted); }
+#profile { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; }
+#profile dt { color: var(--muted); }
+#profile dd { margin: 0; }
+#map-frame { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: #101a21; }
+#map { display: block; width: 100%; min-width: 620px; }
+#map.moving polygon[data-cell] { cursor: crosshair; }
+#map.moving polygon[data-cell]:hover { stroke: white; stroke-width: 2; }
+#legend { display: flex; gap: 8px 17px; flex-wrap: wrap; padding: 0; list-style: none; }
+#legend li { display: flex; gap: 7px; align-items: center; color: var(--muted); font-size: 12px; }
+#legend span { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
+#sites { display: flex; gap: 6px; flex-wrap: wrap; padding: 0; list-style: none; }
+#sites button[aria-pressed="true"] { border-color: var(--accent); }
+#site-editor label { max-width: 350px; }
+#rolls { max-height: 320px; overflow: auto; color: var(--muted); font: 12px/1.6 monospace; }
+@media (max-width: 760px) { .survey-desk { grid-template-columns: 1fr; gap: 0; } }
+@media print {
+  #survey-form, #site-editor, #surface, #dice { display: none; }
+  #roster { max-height: none; overflow: visible; }
+  .survey-desk { display: block; }
+  #map { min-width: 0; }
+  #map-frame { print-color-adjust: exact; }
+  .orbit-row, #sites button { background: white; color: black; }
+}

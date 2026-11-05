@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>World Creator · Classic Traveller Book 6</title>
+  <link rel="stylesheet" href="scout.css">
+  <link rel="stylesheet" href="survey.css">
+  <script type="module" src="survey.js"></script>
+</head>
+<body>
+  <header><a href="../">TRAVELLER <span>BOOK 6</span></a><a href="./">Scout careers</a><span id="version">VERSION 1.0</span></header>
+  <main>
+    <div class="intro">
+      <p class="eyebrow">IMPERIAL INTERSTELLAR SCOUT SERVICE / SURVEY OFFICE</p>
+      <h1>World <em>creator.</em></h1>
+      <p>Roll a complete star system or build outward from an existing world profile. Select a world to chart its surface.</p>
+    </div>
+    <form class="panel" id="survey-form">
+      <p class="eyebrow">01 / SURVEY ORDERS</p>
+      <div class="survey-fields">
+        <label>System or mainworld name <input name="name" maxlength="60" placeholder="Uncharted system"></label>
+        <label>Generation mode <select name="mode"><option value="scratch">New system</option><option value="continuation">Expand an existing mainworld</option></select></label>
+        <label id="profile-field" hidden>Mainworld UWP <input name="uwp" maxlength="9" placeholder="A788899-C" disabled></label>
+        <label>Seed <input name="seed" maxlength="80" placeholder="Random if blank"></label>
+      </div>
+      <div class="actions"><button type="submit">Generate system</button><button class="secondary" id="regina" type="button">Use Regina’s profile</button></div>
+      <p id="error" role="alert" hidden></p>
+    </form>
+    <div id="report" hidden>
+      <div class="survey-desk">
+        <section class="panel">
+          <p class="eyebrow">02 / ORBIT ROSTER</p>
+          <h2 id="system-name" tabindex="-1"></h2>
+          <p id="system-summary"></p>
+          <p id="seed" class="hint"></p>
+          <div id="roster"></div>
+        </section>
+        <section class="panel" id="body-panel">
+          <p class="eyebrow">03 / WORLD PROFILE</p>
+          <h2 id="body-name"></h2>
+          <p class="upp" id="uwp"></p>
+          <dl id="profile"></dl>
+          <p id="facilities"></p>
+          <button id="surface" type="button">Generate surface map</button>
+          <p class="hint" id="body-note"></p>
+        </section>
+      </div>
+      <section class="panel" id="surface-panel" hidden>
+        <p class="eyebrow">04 / SURFACE CHART · PORTAL EXTENSION</p>
+        <h2 id="map-title" tabindex="-1"></h2>
+        <p class="hint">Twenty triangular faces unfold into a single hex chart. Locations and terrain are generated from this world’s profile.</p>
+        <div id="map-frame"><svg id="map" role="img" aria-labelledby="map-title"></svg></div>
+        <ul id="legend" aria-label="Terrain legend"></ul>
+        <section id="site-panel" hidden>
+          <h3>Locations</h3>
+          <ul id="sites"></ul>
+          <div id="site-editor" hidden>
+            <label>Location name <input id="site-name" maxlength="60"></label>
+            <button type="button" class="secondary" id="rename">Rename location</button>
+            <button type="button" class="secondary" id="move">Move on map</button>
+          </div>
+        </section>
+        <p class="hint" id="map-message" role="status"></p>
+      </section>
+      <section class="panel">
+        <p class="eyebrow">05 / SURVEY FILE</p>
+        <div class="actions"><button id="save">Save survey</button><button id="download" class="secondary">Download JSON</button><button id="print" class="secondary">Print survey</button></div>
+        <p class="hint" id="save-status" role="status"></p>
+        <details id="dice"><summary>Generation log</summary><ol id="rolls"></ol></details>
+      </section>
+    </div>
+    <section class="panel" id="archive"><p class="eyebrow">SURVEY ARCHIVE</p><h2>Saved surveys</h2>
+      <p class="hint">Survey records are stored in this browser.</p><ul id="saved"></ul></section>
+    <footer>CLASSIC TRAVELLER / BOOK 6 SCOUTS / WORLD CREATOR</footer>
+  </main>
+</body>
+</html>

@@ -4,7 +4,7 @@ Version **1.0.0** is the CatCathedral character generator, prepared for DoxyLabs
 
 ## Classic Traveller portal
 
-The [live portal](https://traveller.doxylabs.net/) links the Book 0 introduction, Books 1–5 applications, and account sign-in. This repository contains their source.
+The [live portal](https://traveller.doxylabs.net/) links the Book 0 introduction, Books 1–6 applications, and account sign-in. This repository contains their source.
 
 | Component | Source | Live route |
 | --- | --- | --- |
@@ -14,6 +14,7 @@ The [live portal](https://traveller.doxylabs.net/) links the Book 0 introduction
 | Book 3 world builder | [TravellerWorldBuilder](TravellerWorldBuilder/) | `/worlds/` |
 | Book 4 Mercenary | [TravellerMercenary](TravellerMercenary/) | `/mercenary/` |
 | Book 5 High Guard ships and naval careers | [TravellerHighGuard](TravellerHighGuard/) | `/highguard/`, `/highguard/naval-career.html` |
+| Book 6 Scout careers and World Creator | [Book 6](TravellerPortal/public/book6/) | `/book6/`, `/book6/survey.html` |
 | Accounts and database schema | [TravellerAccounts](TravellerAccounts/), [database](TravellerPortal/database/) | `/account/login` |
 
 The Java applications use separate Maven POMs. Server credentials and saved player records belong to the deployment environment.

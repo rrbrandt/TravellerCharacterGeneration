@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scout Character Generator · Classic Traveller Book 6</title>
+  <link rel="stylesheet" href="scout.css">
+  <script type="module" src="scout.js"></script>
+</head>
+<body>
+  <header><a href="../">TRAVELLER <span>BOOK 6</span></a><a href="./survey.html">World creator</a><span id="version">VERSION 1.0</span></header>
+  <main>
+    <div class="intro">
+      <p class="eyebrow">IMPERIAL INTERSTELLAR SCOUT SERVICE / CLASSIC TRAVELLER 1983</p>
+      <h1>Scout character<br><em>generator.</em></h1>
+      <p>Start at the recruiting desk. Follow the postings, risks, and choices that shape a Scout’s career.</p>
+    </div>
+    <div class="desk">
+      <form id="recruit" class="panel">
+        <p class="eyebrow">01 / RECRUIT FILE</p>
+        <h2>Enter the service</h2>
+        <label>Name <input name="name" maxlength="70" placeholder="Unnamed Scout"></label>
+        <div class="fields">
+          <label>Starting UPP <input name="upp" pattern="[1-9A-Ca-c]{6}" maxlength="6" placeholder="Roll 2D each"></label>
+          <label>Quick-roll term target <input name="terms" type="number" min="1" max="7" value="3" required></label>
+          <label>Entry preference <select name="college"><option value="">Direct enlistment</option><option value="yes">Apply to college</option></select></label>
+          <label>Assignment skills <select name="skillTable"><option value="office">Office</option><option value="life">Scout life</option><option value="track">Field or Bureaucracy</option><option value="rank">Administrator rank when eligible</option></select></label>
+        </div>
+        <details>
+          <summary>Career choices</summary>
+          <div class="fields">
+            <label>Honors graduate office <select name="honorsOffice"><option value="-1">Roll for office</option><option value="3">Detached Duty</option><option value="4">Technical</option><option value="5">Operations</option><option value="6">Administration</option></select></label>
+            <label>Cash benefit rolls <input type="number" name="cashRolls" min="0" max="3" value="1" required></label>
+            <label>Gun Combat specialty <select name="gun"><option>Auto Pistol</option><option>Body Pistol</option><option>Revolver</option><option>Carbine</option><option>Rifle</option><option>Auto Rifle</option><option>Shotgun</option><option>SMG</option><option>Laser Carbine</option><option>Laser Rifle</option></select></label>
+            <label>Space specialty <select name="space"><option>Navigation</option><option>Engineering</option><option>Gunnery</option><option>Pilot</option><option>Ship’s Boat</option><option>Ship Tactics</option></select></label>
+            <label>Vehicle specialty <select name="vehicle"><option>Grav Vehicle</option><option>Wheeled Vehicle</option><option>Tracked Vehicle</option><option>Propeller Aircraft</option><option>Jet Aircraft</option><option>Helicopter</option><option>Large Watercraft</option><option>Small Watercraft</option><option>Hovercraft</option><option>Submersible</option></select></label>
+          </div>
+          <label class="check"><input type="checkbox" name="draft" checked> Try the draft if enlistment fails</label>
+          <label class="check"><input type="checkbox" name="advanced" checked> Use advanced skill modifiers when eligible</label>
+          <label class="check"><input type="checkbox" name="declineTransfer"> Decline the first Field transfer roll</label>
+          <label class="check"><input type="checkbox" name="reassign"> Request a new office at re-enlistment</label>
+          <label class="check"><input type="checkbox" name="adminDutyBonus"> Use the administrator duty modifier</label>
+          <label class="check"><input type="checkbox" name="injury"> Discharge on failed survival</label>
+        </details>
+        <div class="actions"><button name="mode" value="quick">Roll full career</button><button class="secondary" name="mode" value="step">Play year by year</button></div>
+      </form>
+      <section aria-label="Scout service record">
+        <article class="panel">
+          <p class="eyebrow">02 / SERVICE RECORD</p>
+          <h2 id="name" tabindex="-1">Awaiting a recruit</h2>
+          <p id="status" role="status">Roll a career to start the service record.</p>
+          <div id="sheet" hidden>
+            <p id="upp" class="upp"></p>
+            <p id="posting"></p>
+            <div class="fields"><section><h3>Skills</h3><ul id="skills"></ul></section><section><h3>Benefits</h3><ul id="benefits"></ul></section></div>
+          </div>
+          <div class="actions">
+            <button id="next" hidden>Roll next year</button><button id="leave" class="secondary" hidden>Muster out</button>
+            <button id="save" hidden>Save Scout</button><button id="export" class="secondary" hidden>Download JSON</button>
+            <button id="print" class="secondary" hidden>Print</button>
+          </div>
+          <p id="notice" class="hint" role="status"></p>
+        </article>
+        <article class="panel" id="history" hidden><p class="eyebrow">03 / DICE AND OUTCOMES</p><h2>Career log</h2><div id="log"></div></article>
+        <article class="panel" id="archive"><p class="eyebrow">04 / SCOUT ARCHIVE</p><h2>Saved Scouts</h2><p class="hint">Saves are stored in this browser.</p><ul id="saved"></ul></article>
+      </section>
+    </div>
+    <footer>CLASSIC TRAVELLER / BOOK 6 SCOUTS</footer>
+  </main>
+</body>
+</html>

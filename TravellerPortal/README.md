@@ -1,6 +1,16 @@
 # Classic Traveller Books 0–8 portal
 
-The current DoxyLabs site uses the static files in [public](public/). It links Book 0, the Books 1–5 tools, and account sign-in. The [dist](dist/) directory holds the home-server version.
+The current DoxyLabs site uses the static files in [public](public/). It links Book 0, Books 1–6 tools, and account sign-in. The [dist](dist/) directory holds the home-server version.
+
+## Book 6 · Scouts
+
+The local portal displays each implemented book's own starting version, 1.0. Serve `public/` with an HTTP server and open `/book6/` for the Scout career generator. For example, run `python -m http.server 18088 --bind 127.0.0.1 --directory public` from this directory.
+
+Scout careers follow the 1983 Book 6 Field and Bureaucracy procedures with Book 1 aging and mustering out. Quick roll uses the requested term count. Year-by-year mode pauses between assignments and asks whether to re-enlist when the rules allow a choice. Other choices follow the recruit settings. Completed records can be saved in the current browser, printed, or downloaded as JSON.
+
+World Creator 1.0 at `/book6/survey.html` can expand a pasted Book 3 mainworld profile or choose a mainworld in a newly rolled system. It logs dice rolls and retains the generation seed. It estimates orbital zones from representative stellar luminosities. The surface chart is a portal extension, with profile-driven hex terrain and editable site pins on a 20-face map. Surveys, including site edits, are saved in the current browser or downloaded as JSON.
+
+Published on DoxyLabs on 2026-11-05 at https://traveller.doxylabs.net/book6/. Nginx serves the static Book 6 files from `/var/www/traveller-portal/book6`. The public portal displays separate 1.0 badges for Books 0–6. Rollback files are in `/var/backups/traveller-book6-OQIQeLNp/prior`.
 
 Static menu hosted on Tomcathedral's existing Tomcat service at `/traveller/`. Links to the separate character generator8082 and ship builder8083, including their saved-work libraries. Books1 and2 are highlighted because those are the installed applications; this portal does not claim to implement every book.
 
